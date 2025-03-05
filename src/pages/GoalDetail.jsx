@@ -1,5 +1,5 @@
 import { API_URL } from "../../config/api"
-import axios from 'axios'
+import axios from "axios"
 
 function GoalDetail() {}
 

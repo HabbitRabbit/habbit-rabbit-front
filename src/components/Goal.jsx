@@ -1,7 +1,7 @@
 import {useParams, NavLink} from "react-router-dom"
 import { useState } from "react"
 import { API_URL } from "../../config/api"
-import axios from 'axios'
+import axios from "axios"
 
 function Goal() {
 
@@ -19,7 +19,7 @@ function Goal() {
 
     if (goals === null) {
         return (
-            <div>No goals are created yet. Create one now! :) </div>
+            <div>No goals are created yet. Create one now! : </div>
         )
     }
     
