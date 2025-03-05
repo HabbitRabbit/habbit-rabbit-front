@@ -1,5 +1,3 @@
-// src/pages/SignupPage.jsx
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,20 +10,15 @@ function SignupPage(props) {
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
-  
+
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
   const handleName = (e) => setName(e.target.value);
 
-  
   const handleSignupSubmit = (e) => {
     e.preventDefault();
-    // Create an object representing the request body
     const requestBody = { email, password, name };
- 
-    // Make an axios request to the API
-    // If the POST request is a successful redirect to the login page
-    // If the request resolves with an error, set the error message in the state
+
     axios.post(`${API_URL}/auth/signup`, requestBody)
       .then((response) => {
         navigate('/login');
@@ -36,45 +29,61 @@ function SignupPage(props) {
       })
   };
 
-  
   return (
-    <div className="SignupPage">
-      <h1>Sign Up</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
 
-      <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input 
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleEmail}
-        />
+        <form onSubmit={handleSignupSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700">Email:</label>
+            <input 
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleEmail}
+              className="w-full mt-1 p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
 
-        <label>Password:</label>
-        <input 
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
+          <div>
+            <label className="block text-gray-700">Password:</label>
+            <input 
+              type="password"
+              name="password"
+              value={password}
+              onChange={handlePassword}
+              className="w-full mt-1 p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
 
-        <label>Name:</label>
-        <input 
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleName}
-        />
+          <div>
+            <label className="block text-gray-700">Name:</label>
+            <input 
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleName}
+              className="w-full mt-1 p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
 
-        <button type="submit">Sign Up</button>
-      </form>
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            Sign Up
+          </button>
+        </form>
 
-      { errorMessage && <p className="error-message">{errorMessage}</p> }
+        {errorMessage && <p className="mt-4 text-red-500 text-center">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account? <Link to={"/login"} className="text-blue-600 hover:underline">Login</Link>
+        </p>
+      </div>
     </div>
-  )
+  );
 }
 
 export default SignupPage;
