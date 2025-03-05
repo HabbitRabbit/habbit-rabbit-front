@@ -4,13 +4,12 @@ import { Routes, Route } from 'react-router-dom'
 import './index.css'
 
 import Navbar from './components/Navbar'
-import Goal from './components/Goal'
-
 import HomePage from './pages/Homepage'
 import Dashboard from "./pages/Dashboard"
 import About from './pages/About'
 import NotFound from './pages/NotFound'
 import SignupPage from './pages/SignupPage'
+import CreateGoal from './components/CreateGoal'
 
 
 
@@ -22,7 +21,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/goals" element={<Goal />} />
+        <Route path="/create-goal" element={<CreateGoal />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
