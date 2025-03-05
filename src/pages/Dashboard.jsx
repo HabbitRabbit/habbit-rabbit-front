@@ -1,4 +1,5 @@
 import Goal from "../components/Goal"
+import { Link } from 'react-router-dom';
 
 function Dashboard(){
     return (
