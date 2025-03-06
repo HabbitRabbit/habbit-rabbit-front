@@ -38,6 +38,23 @@ function App() {
     }
   }
 
+  const deleteHabit = async (habitId) => {
+
+    try {
+      const response = await axios.delete(`${API_URL}/api/habits/${habitId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      })
+
+      return response
+
+    } catch (error) {
+     console.log(error) 
+    }
+  }
+
+
   return (
     <div>
 
@@ -47,8 +64,8 @@ function App() {
         <Route path="/create-goal" element={<CreateGoal />} />
         <Route path="/goals/:goalId" element={<GoalDetail deleteGoal={deleteGoal}/>}/>
         <Route path="/create-habit" element={<CreateHabit />} />
-        <Route path="/habits" element={<ListHabits />} />
-        <Route path="/habits/:habitId" element={<HabitDetail />} />
+        <Route path="/habits" element={<ListHabits deleteHabit={deleteHabit}/>} />
+        <Route path="/habits/:habitId" element={<HabitDetail deleteHabit = {deleteHabit}/>} />
         <Route path="/dashboard" element={<Dashboard deleteGoal={deleteGoal}/>} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>

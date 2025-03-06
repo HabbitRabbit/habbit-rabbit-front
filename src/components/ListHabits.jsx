@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../config/api";
 
 
-function ListHabits({}) {
+function ListHabits({deleteHabit}) {
 
     const [habits, setHabits] = useState(null);
 
@@ -21,6 +21,12 @@ function ListHabits({}) {
           })
           .catch((error) => console.log(`Error: ${error}`));
       };
+
+      const handleDelete = async (habitId) => {
+        await deleteHabit(habitId)
+        await fetchHabits()
+       };
+     
 
     useEffect(() => {
         fetchHabits();
@@ -42,6 +48,12 @@ function ListHabits({}) {
             <li key={habit._id} className="p-4 bg-gray-100 rounded shadow-sm">
               <Link to={`/habits/${habit._id}`} className="text-blue-600 hover:underline">
               {habit.title}</Link>
+              <button
+                onClick={() => handleDelete(habit._id)} 
+                className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>

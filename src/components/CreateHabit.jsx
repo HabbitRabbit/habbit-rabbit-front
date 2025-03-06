@@ -50,7 +50,7 @@ function CreateHabit() {
             setFrequency("daily");
             setReminder("");
 
-            navigate('/dashboard')
+            navigate('/habits')
 
         } catch (error) {
             console.error("There was an error creating the goal!", error);
