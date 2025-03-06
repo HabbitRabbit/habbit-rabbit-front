@@ -5,7 +5,12 @@ import CreateGoal from "../components/CreateGoal";
 
 function Dashboard() {
   const [goals, setGoals] = useState(null);
+  const [showForm, setShowForm] = useState(false)
 
+
+  const toggleFormView = () => {
+    setShowForm((prevShowForm) => !prevShowForm)
+  }
   useEffect(() => {
     axios
       .get(`${API_URL}/api/goals`, {
@@ -23,7 +28,10 @@ function Dashboard() {
   return (
 <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded">
       <h1 className="text-2xl font-bold mb-4">Dashboard Goal Page</h1>
-      <CreateGoal />
+      <button onClick={toggleFormView} className="button bg-pink-400">
+        {showForm ? "Hide Form" : "Click to Create new Goal"}
+      {showForm && <CreateGoal />}
+      </button>
       {goals === null ? (
         <div className="mt-6 text-gray-600">No goals are created yet. Create one now! :)</div>
       ) : (
