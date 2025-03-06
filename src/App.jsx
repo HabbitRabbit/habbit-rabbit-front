@@ -47,6 +47,8 @@ function App() {
         <Route path="/create-goal" element={<CreateGoal />} />
         <Route path="/goals/:goalId" element={<GoalDetail deleteGoal={deleteGoal}/>}/>
         <Route path="/create-habit" element={<CreateHabit />} />
+        <Route path="/habits" element={<ListHabits />} />
+        <Route path="/habits/:habitId" element={<HabitDetail />} />
         <Route path="/dashboard" element={<Dashboard deleteGoal={deleteGoal}/>} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
