@@ -14,6 +14,10 @@ function Navbar() {
                 <Link to="/create-goal" >Create a new goal</Link>
                 <br></br>
                 <Link to="/dashboard" >Dashboard</Link>
+                <br></br>
+                <Link to="/habits" >Habits</Link>
+                <br></br>
+                <Link to="/create-habit" >Create habit</Link>
                 </div>
             </div>
         </nav>
