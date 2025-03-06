@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 import CreateGoal from "../components/CreateGoal";
+import { Link } from "react-router-dom";
+
 
 function Dashboard() {
   const [goals, setGoals] = useState(null);
@@ -48,7 +50,8 @@ function Dashboard() {
         <ul className="mt-6 space-y-2">
           {goals.map((goal) => (
             <li key={goal._id} className="p-4 bg-gray-100 rounded shadow-sm">
-              {goal.name}
+              <Link to={`/goals/${goal._id}`} className="text-blue-600 hover:underline">
+              {goal.name}</Link>
             </li>
           ))}
         </ul>
