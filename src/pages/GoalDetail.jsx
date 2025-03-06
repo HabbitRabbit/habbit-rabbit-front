@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 
-function GoalDetail() {
+function GoalDetail({deleteGoal}) {
   const { goalId } = useParams(); // Retrieve the goal ID from URL parameters
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
