@@ -41,8 +41,7 @@ function GoalDetail() {
           <p><strong>Period:</strong> {goal.period}</p>
           <p><strong>Start Date:</strong> {new Date(goal.startDate).toLocaleDateString()}</p>
           <p><strong>End Date:</strong> {goal.endDate ? new Date(goal.endDate).toLocaleDateString() : "Ongoing"}</p>
-          <p><strong>Created By:</strong> {goal.createdBy.name}</p>
-          {/* Add more fields as necessary */}
+          {/* TODO Add the habits here + fix na */}
         </div>
       ) : (
         <div>Goal not found</div>

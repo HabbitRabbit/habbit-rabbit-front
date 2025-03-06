@@ -59,7 +59,7 @@ function CreateHabit() {
 
     return (
         <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
-            <h2 className="text-xl font-semibold mb-4">Create a New Habits</h2>
+            <h2 className="text-xl font-semibold mb-4">Create a New Habit</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label className="block text-gray-700">
