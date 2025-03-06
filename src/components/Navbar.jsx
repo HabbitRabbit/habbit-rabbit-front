@@ -11,7 +11,7 @@ function Navbar() {
                 <br></br>
                 <Link to="/about">About</Link>
                 <br></br>
-                <Link to="/newGoal" >Create a new goal</Link>
+                <Link to="/create-goal" >Create a new goal</Link>
                 <br></br>
                 <Link to="/dashboard" >Dashboard</Link>
                 </div>
