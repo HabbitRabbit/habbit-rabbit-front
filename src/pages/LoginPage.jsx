@@ -35,7 +35,7 @@ function LoginPage(props) {
         // to the server's JWT validation endpoint. 
         authenticateUser(); 
       
-        navigate('/');                                  
+        navigate('/dashboard');                                  
       })
       .catch((error) => {
         const errorDescription = error.response.data.message;
