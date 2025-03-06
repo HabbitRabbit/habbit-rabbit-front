@@ -13,6 +13,8 @@ import CreateGoal from './components/CreateGoal'
 import LoginPage from './pages/LoginPage'
 import GoalDetail from './pages/GoalDetail'
 import CreateHabit from './components/CreateHabit'
+import HabitDetail from './pages/HabitDetail'
+import ListHabits from './components/ListHabits'
 
 
 
@@ -27,6 +29,8 @@ function App() {
         <Route path="/create-goal" element={<CreateGoal />} />
         <Route path="/goals/:goalId" element={<GoalDetail/>}/>
         <Route path="/create-habit" element={<CreateHabit />} />
+        <Route path="/habits/:habitId" element={<HabitDetail />} />
+        <Route path="/habits" element={<ListHabits />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
