@@ -54,6 +54,9 @@ function ListHabits({deleteHabit}) {
               >
                 Delete
               </button>
+              <Link to={`/habits/edit/${habit._id}`}>
+                            <button className="btn-green text-sm md:text-xl hover:bg-green-800" >Edit</button>
+                        </Link>
             </li>
           ))}
         </ul>

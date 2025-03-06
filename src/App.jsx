@@ -17,6 +17,7 @@ import CreateHabit from './components/CreateHabit'
 import HabitDetail from './pages/HabitDetail'
 import ListHabits from './components/ListHabits'
 import { API_URL } from '../config/api'
+import EditHabit from './components/EditHabit'
 
 
 
@@ -66,6 +67,7 @@ function App() {
         <Route path="/create-habit" element={<CreateHabit />} />
         <Route path="/habits" element={<ListHabits deleteHabit={deleteHabit}/>} />
         <Route path="/habits/:habitId" element={<HabitDetail deleteHabit = {deleteHabit}/>} />
+        <Route path="/habits/edit/:habitId" element={<EditHabit/>} />
         <Route path="/dashboard" element={<Dashboard deleteGoal={deleteGoal}/>} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
