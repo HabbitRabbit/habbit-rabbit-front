@@ -44,32 +44,35 @@ function LoginPage(props) {
   };
   
   return (
-    <div className="LoginPage">
-      <h1>Login</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
 
-      <form onSubmit={handleLoginSubmit}>
-        <label>Email:</label>
+      <form onSubmit={handleLoginSubmit} className="space-y-4">
+        <label className="block text-gray-700">Email:</label>
         <input 
           type="email"
           name="email"
           value={email}
           onChange={handleEmail}
+          className="w-full mt-1 p-2 border border-gray-300 rounded"
         />
 
-        <label>Password:</label>
+        <label className="block">Password:</label>
         <input
           type="password"
           name="password"
           value={password}
           onChange={handlePassword}
+          className="w-full mt-1 p-2 border border-gray-300 rounded"
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
       </form>
-      { errorMessage && <p className="error-message">{errorMessage}</p> }
+      { errorMessage && <p className="mt-4 text-red-500 text-center">{errorMessage}</p> }
 
-      <p>Don't have an account yet?</p>
-      <Link to={"/signup"}> Sign Up</Link>
+      <p className="mt-6 text-center text-gray-600">Don't have an account yet? <Link to={"/signup"} className="text-blue-600 w-full hover:underline"> Sign Up</Link> </p>
+      </div>
     </div>
   )
 }
