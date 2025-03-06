@@ -10,6 +10,7 @@ import About from './pages/About'
 import NotFound from './pages/NotFound'
 import SignupPage from './pages/SignupPage'
 import CreateGoal from './components/CreateGoal'
+import LoginPage from './pages/LoginPage'
 
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
+        <Route path="/login" element={<LoginPage />}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
 
