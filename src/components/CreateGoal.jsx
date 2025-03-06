@@ -46,36 +46,23 @@ function CreateGoal({ goalId, onGoalCreated }) {
         period,
         startDate,
         endDate,
+        createdBy: userId, // Set the createdBy field with the user's ID
+        //TODO Check how habits are being sent
       };
 
-      if (goalId) {
-        // Update existing goal
-        await axios.put(`${API_URL}/api/goals/${goalId}`, goalData, {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
-        console.log("Goal updated successfully");
-      } else {
-        // Create new goal
-        const decodedToken = JSON.parse(atob(userToken.split('.')[1]));
-        const userId = decodedToken._id;
-        const newGoal = { ...goalData, createdBy: userId };
+      const response = await axios.post(`${API_URL}/api/goals`, newGoal, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
 
-        await axios.post(`${API_URL}/api/goals`, newGoal, {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
-        console.log("Goal created successfully");
-      }
-
-    //Reset form fields
-    setName("");
-    setTargetFrequency(0);
-    setPeriod("daily");
-    setStartDate("");
-    setEndDate("");
+      console.log("Goal created successfully:", response.data);
+      // Reset form fields
+      setName("");
+      setTargetFrequency(0);
+      setPeriod("daily");
+      setStartDate("");
+      setEndDate("");
 
       onGoalCreated();
 
