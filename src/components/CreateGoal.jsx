@@ -39,8 +39,19 @@ function CreateGoal({ goalId, onGoalCreated }) {
     event.preventDefault();
     try {
       const userToken = localStorage.getItem("authToken");
+      console.log(userToken)
 
-      const goalData = {
+
+
+      const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
+
+
+      const userId = decodedToken._id; // Extract user ID from the token payload
+
+
+        console.log(userId)
+
+      const newGoal = {
         name,
         targetFrequency,
         period,
