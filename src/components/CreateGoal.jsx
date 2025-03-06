@@ -70,14 +70,14 @@ function CreateGoal({ goalId, onGoalCreated }) {
         console.log("Goal created successfully");
       }
 
-      // Reset form fields
-      // setName("");
-      // setTargetFrequency(0);
-      // setPeriod("daily");
-      // setStartDate("");
-      // setEndDate("");
+    //Reset form fields
+    setName("");
+    setTargetFrequency(0);
+    setPeriod("daily");
+    setStartDate("");
+    setEndDate("");
 
-      // onGoalCreated();
+      onGoalCreated();
 
       navigate('/dashboard');
 
