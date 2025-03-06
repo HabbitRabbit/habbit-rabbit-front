@@ -2,13 +2,16 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
+import { useNavigate } from "react-router-dom";
 
-function CreateGoal() {
+function CreateGoal({onGoalCreated}) {
   const [name, setName] = useState("");
   const [targetFrequency, setTargetFrequency] = useState(0);
   const [period, setPeriod] = useState("daily");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+    const navigate = useNavigate()
 
   const { storeToken } = useContext(AuthContext)
 
@@ -44,6 +47,10 @@ function CreateGoal() {
       setPeriod("daily");
       setStartDate("");
       setEndDate("");
+
+      onGoalCreated();
+
+      navigate('/dashboard')
 
     } catch (error) {
       console.error("There was an error creating the goal!", error);

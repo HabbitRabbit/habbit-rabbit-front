@@ -10,7 +10,8 @@ function Dashboard() {
   const toggleFormView = () => {
     setShowForm((prevShowForm) => !prevShowForm);
   };
-  useEffect(() => {
+
+  const fetchGoals = () => {
     axios
       .get(`${API_URL}/api/goals`, {
         headers: {
@@ -22,6 +23,14 @@ function Dashboard() {
         setGoals(goals);
       })
       .catch((error) => console.log(`Error: ${error}`));
+  };
+  const handleGoalCreation = () => {
+    fetchGoals();
+    setShowForm(false);
+  };
+
+  useEffect(() => {
+    fetchGoals();
   }, []);
 
   return (
@@ -29,8 +38,8 @@ function Dashboard() {
       <h1 className="text-2xl font-bold mb-4">Dashboard Goal Page</h1>
       <button onClick={toggleFormView} className="button bg-pink-400">
         {showForm ? "Hide Form" : "Click to Create new Goal"}
-        {showForm && <CreateGoal />}
       </button>
+      {showForm && <CreateGoal onGoalCreated={handleGoalCreation}/>}
       {goals === null ? (
         <div className="mt-6 text-gray-600">
           No goals are created yet. Create one now! :)
