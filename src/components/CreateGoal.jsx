@@ -71,13 +71,13 @@ function CreateGoal({ goalId, onGoalCreated }) {
       }
 
       // Reset form fields
-      setName("");
-      setTargetFrequency(0);
-      setPeriod("daily");
-      setStartDate("");
-      setEndDate("");
+      // setName("");
+      // setTargetFrequency(0);
+      // setPeriod("daily");
+      // setStartDate("");
+      // setEndDate("");
 
-      onGoalCreated();
+      // onGoalCreated();
 
       navigate('/dashboard');
 
