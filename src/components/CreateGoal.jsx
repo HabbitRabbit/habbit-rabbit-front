@@ -42,13 +42,13 @@ function CreateGoal({onGoalCreated}) {
 
       console.log("Goal created successfully:", response.data);
       // Reset form fields
-      // setName("");
-      // setTargetFrequency(0);
-      // setPeriod("daily");
-      // setStartDate("");
-      // setEndDate("");
+      setName("");
+      setTargetFrequency(0);
+      setPeriod("daily");
+      setStartDate("");
+      setEndDate("");
 
-      // onGoalCreated();
+      onGoalCreated();
 
       navigate('/dashboard')
 
