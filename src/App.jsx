@@ -25,7 +25,6 @@ function App() {
   const deleteGoal = async (goalId) => {
 
     try {
-      
       const response = await axios.delete(`${API_URL}/api/goals/${goalId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
