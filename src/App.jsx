@@ -22,24 +22,6 @@ import { API_URL } from '../config/api'
 
 function App() {
 
-  const navigate = useNavigate()
-
-  // const deleteGoal = (goalId) => {
-  //   axios.delete(`${API_URL}/api/goals/${goalId}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-  //     },
-  //   })
-  //   .then((res) => {
-  //     console.log("Goal deleted successfully:");
-  //     // navigate("/dashboard")
-  //     return res.status
-  //   })
-  //   .catch((error) => {
-  //     console.error("There was an error deleting the goal!", error);
-  //   });
-  // };
-
   const deleteGoal = async (goalId) => {
 
     try {
@@ -49,8 +31,7 @@ function App() {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       })
-  
-      
+
       return response
 
     } catch (error) {
@@ -67,7 +48,7 @@ function App() {
         <Route path="/create-goal" element={<CreateGoal />} />
         <Route path="/goals/:goalId" element={<GoalDetail deleteGoal={deleteGoal}/>}/>
         <Route path="/create-habit" element={<CreateHabit />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard deleteGoal={deleteGoal}/>} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
         <Route path="/login" element={<LoginPage />}/>
