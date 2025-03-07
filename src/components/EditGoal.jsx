@@ -9,9 +9,26 @@ function EditGoal() {
   const [period, setPeriod] = useState("daily");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [habits, setHabits] = useState([]);  // State for available habits
+  const [selectedHabits, setSelectedHabits] = useState([]);  // State for selected habits
 
   const navigate = useNavigate();
   const {goalId} = useParams()
+
+
+  //Fetch the habits
+  useEffect(() => {
+    axios.get(`${API_URL}/api/habits/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    })
+      .then(response => {
+        setHabits(response.data); // Set all habits
+      })
+      .catch((error) => console.log(`Error fetching habits: ${error}`));
+  }, []);
+
 
   useEffect(() => {
     if (goalId) {
@@ -29,6 +46,8 @@ function EditGoal() {
         setPeriod(goal.period);
         setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
         setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
+        const habitIds = goal.habits.map(habit => habit.habit._id); // Extract habit IDs
+          setSelectedHabits(habitIds);
       })
       .catch((error) => console.error("Error fetching goal data:", error));
     }
@@ -43,6 +62,7 @@ function EditGoal() {
         period,
         startDate,
         endDate,
+        habits: selectedHabits.map(id => ({ habit: id }))
       };
 
       await axios.patch(`${API_URL}/api/goals/${goalId}`, updatedGoal, {
@@ -122,6 +142,21 @@ function EditGoal() {
               className="mt-1 block w-full p-2 border border-gray-300 rounded"
             />
           </label>
+        </div>
+        <div>
+          <label className="block text-gray-700">Select Habits:</label>
+          <select
+            multiple
+            value={selectedHabits}
+            onChange={(e) => setSelectedHabits(Array.from(e.target.selectedOptions, option => option.value))}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+          >
+            {habits.map((habit) => (
+              <option key={habit._id} value={habit._id}>
+                {habit.name}
+              </option>
+            ))}
+          </select>
         </div>
         <button
           type="submit"
