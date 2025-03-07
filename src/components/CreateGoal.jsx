@@ -4,7 +4,7 @@ import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 
-function CreateGoal({ goalId, fetchGoals }) {
+function CreateGoal({ goalId, fetchGoals, onGoalCreated }) {
   
 
   const [name, setName] = useState("");
@@ -43,10 +43,7 @@ function CreateGoal({ goalId, fetchGoals }) {
       const userToken = localStorage.getItem("authToken");
       console.log(userToken)
 
-
-
       const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
-
 
       const userId = decodedToken._id; // Extract user ID from the token payload
 
