@@ -4,8 +4,8 @@ import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 
-function CreateGoal({ goalId, fetchGoals }) {
-  
+function CreateGoal({ goalId, fetchGoals, fetchHabits }) {
+
 
   const [name, setName] = useState("");
   const [targetFrequency, setTargetFrequency] = useState(0);
@@ -14,6 +14,7 @@ function CreateGoal({ goalId, fetchGoals }) {
   const [endDate, setEndDate] = useState("");
 
   const [habits, setHabits] = useState([])
+  const [selectedHabits, setSelectedHabits] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,17 +22,21 @@ function CreateGoal({ goalId, fetchGoals }) {
 
 
   //useEffect to get the habits
+  // useEffect(() => {
+  //   fetchHabits() dont know why this is not working
+  // }, []) 
+
   useEffect(() => {
     axios.get(`${API_URL}/api/habits/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     })
-    .then(response => {
-      setHabits(response.data)
-    })
-    .catch((error) => console.log(`Error: ${error}`));
-  })
+      .then(response => {
+        setHabits(response.data); // Set all habits
+      })
+      .catch((error) => console.log(`Error fetching habits: ${error}`));
+  }, []); 
 
 
 
@@ -43,15 +48,19 @@ function CreateGoal({ goalId, fetchGoals }) {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       })
-      .then((response) => {
-        const goal = response.data;
-        setName(goal.name);
-        setTargetFrequency(goal.targetFrequency);
-        setPeriod(goal.period);
-        setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
-        setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
-      })
-      .catch((error) => console.error("Error fetching goal data:", error));
+        .then((response) => {
+          const goal = response.data;
+          setName(goal.name);
+          setTargetFrequency(goal.targetFrequency);
+          setPeriod(goal.period);
+          setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
+          setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
+          // Set selected habits if the goal has habits
+          if (goal.habits && goal.habits.length > 0) {
+            setSelectedHabits(goal.habits.map((habit) => habit.habit)); // Set the habit IDs
+          }
+        })
+        .catch((error) => console.error("Error fetching goal data:", error));
     }
   }, [goalId]);
 
@@ -59,17 +68,8 @@ function CreateGoal({ goalId, fetchGoals }) {
     event.preventDefault();
     try {
       const userToken = localStorage.getItem("authToken");
-      console.log(userToken)
-
-
-
       const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
-
-
       const userId = decodedToken._id; // Extract user ID from the token payload
-
-
-        console.log(userId)
 
       const newGoal = {
         name,
@@ -77,8 +77,8 @@ function CreateGoal({ goalId, fetchGoals }) {
         period,
         startDate,
         endDate,
-        createdBy: userId, // Set the createdBy field with the user's ID
-        //TODO Check how habits are being sent
+        habits: selectedHabits.map((habitId) => ({ habit: habitId, achievedCount: 0 })), // Map selected habit IDs to the habit objects
+        createdBy: userId,
       };
 
       const response = await axios.post(`${API_URL}/api/goals`, newGoal, {
@@ -94,6 +94,7 @@ function CreateGoal({ goalId, fetchGoals }) {
       setPeriod("daily");
       setStartDate("");
       setEndDate("");
+      setSelectedHabits([]);
 
 
       navigate('/dashboard');
@@ -164,6 +165,24 @@ function CreateGoal({ goalId, fetchGoals }) {
               onChange={(e) => setEndDate(e.target.value)}
               className="mt-1 block w-full p-2 border border-gray-300 rounded"
             />
+          </label>
+        </div>
+        <div>
+          <label className="block text-gray-700">
+            Habits:
+            <select
+              multiple
+              value={selectedHabits}
+              onChange={(e) => setSelectedHabits(Array.from(e.target.selectedOptions, option => option.value))}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded"
+            >
+              <option value="">Select habits</option>
+              {habits.map((habit) => (
+                <option key={habit.id} value={habit._id}>
+                  {habit.title}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
         <button
