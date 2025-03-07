@@ -24,8 +24,6 @@ import EditGoal from './components/EditGoal'
 
 function App() {
 
-///SERGIO TRABAJA EN HABITS AQUI
-
 // Show habits
 const [habits, setHabits] = useState(null);
 
@@ -62,10 +60,9 @@ const deleteHabit = async (habitId) => {
 }
 
 
-/// JULIA TRABAJA EN GOALS AQUI
-const [goals, setGoals] = useState(null);
-
 //Function to Fetch Goals
+
+const [goals, setGoals] = useState(null);
 const fetchGoals = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/goals`, {
