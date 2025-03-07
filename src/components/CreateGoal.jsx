@@ -4,7 +4,7 @@ import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 
-function CreateGoal({ goalId, onGoalCreated }) {
+function CreateGoal({ goalId, fetchGoals }) {
   
 
   const [name, setName] = useState("");
@@ -95,7 +95,6 @@ function CreateGoal({ goalId, onGoalCreated }) {
       setStartDate("");
       setEndDate("");
 
-      onGoalCreated();
 
       navigate('/dashboard');
 

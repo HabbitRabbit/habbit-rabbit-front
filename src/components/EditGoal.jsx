@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function EditGoal({ goalId, onGoalUpdated }) {
+function EditGoal() {
   const [name, setName] = useState("");
   const [targetFrequency, setTargetFrequency] = useState(0);
   const [period, setPeriod] = useState("daily");
@@ -11,6 +11,7 @@ function EditGoal({ goalId, onGoalUpdated }) {
   const [endDate, setEndDate] = useState("");
 
   const navigate = useNavigate();
+  const {goalId} = useParams()
 
   useEffect(() => {
     if (goalId) {
@@ -51,7 +52,6 @@ function EditGoal({ goalId, onGoalUpdated }) {
       });
 
       console.log("Goal updated successfully");
-      onGoalUpdated(); // Callback function to refresh the list or navigate
 
       navigate('/dashboard'); // Navigate or perform some action after update
 
