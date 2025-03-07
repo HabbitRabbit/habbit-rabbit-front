@@ -1,12 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config/api";
-import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 
-function CreateGoal({ goalId, onGoalCreated }) {
-  
-
+function EditGoal({ goalId, onGoalUpdated }) {
   const [name, setName] = useState("");
   const [targetFrequency, setTargetFrequency] = useState(0);
   const [period, setPeriod] = useState("daily");
@@ -14,8 +11,6 @@ function CreateGoal({ goalId, onGoalCreated }) {
   const [endDate, setEndDate] = useState("");
 
   const navigate = useNavigate();
-
-  const { storeToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (goalId) {
@@ -27,6 +22,7 @@ function CreateGoal({ goalId, onGoalCreated }) {
       })
       .then((response) => {
         const goal = response.data;
+        console.log(goal)
         setName(goal.name);
         setTargetFrequency(goal.targetFrequency);
         setPeriod(goal.period);
@@ -40,55 +36,33 @@ function CreateGoal({ goalId, onGoalCreated }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const userToken = localStorage.getItem("authToken");
-      console.log(userToken)
-
-
-
-      const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
-
-
-      const userId = decodedToken._id; // Extract user ID from the token payload
-
-
-        console.log(userId)
-
-      const newGoal = {
+      const updatedGoal = {
         name,
         targetFrequency,
         period,
         startDate,
         endDate,
-        createdBy: userId, // Set the createdBy field with the user's ID
-        //TODO Check how habits are being sent
       };
 
-      const response = await axios.post(`${API_URL}/api/goals`, newGoal, {
+      await axios.patch(`${API_URL}/api/goals/${goalId}`, updatedGoal, {
         headers: {
-          Authorization: `Bearer ${userToken}`,
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
 
-      console.log("Goal created successfully:", response.data);
-      // Reset form fields
-      setName("");
-      setTargetFrequency(0);
-      setPeriod("daily");
-      setStartDate("");
-      setEndDate("");
+      console.log("Goal updated successfully");
+      onGoalUpdated(); // Callback function to refresh the list or navigate
 
-      onGoalCreated();
-
-      navigate('/dashboard');
+      navigate('/dashboard'); // Navigate or perform some action after update
 
     } catch (error) {
-      console.error("There was an error saving the goal!", error);
+      console.error("There was an error updating the goal!", error);
     }
   };
 
   return (
     <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
-      <h2 className="text-xl font-semibold mb-4">{goalId ? "Edit Goal" : "Create a New Goal"}</h2>
+      <h2 className="text-xl font-semibold mb-4">Edit Goal</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-gray-700">
@@ -153,11 +127,11 @@ function CreateGoal({ goalId, onGoalCreated }) {
           type="submit"
           className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
         >
-          {goalId ? "Save Changes" : "Create Goal"}
+          Save Changes
         </button>
       </form>
     </div>
   );
 }
 
-export default CreateGoal;
+export default EditGoal;

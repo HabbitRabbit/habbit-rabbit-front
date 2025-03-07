@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config/api";
+import EditGoal from "../components/EditGoal";
 
 function GoalDetail({deleteGoal}) {
   const { goalId } = useParams(); // Retrieve the goal ID from URL parameters
@@ -42,6 +43,8 @@ function GoalDetail({deleteGoal}) {
           <p><strong>Start Date:</strong> {new Date(goal.startDate).toLocaleDateString()}</p>
           <p><strong>End Date:</strong> {goal.endDate ? new Date(goal.endDate).toLocaleDateString() : "Ongoing"}</p>
           {/* TODO Add the habits here + fix na */}
+
+          <div><EditGoal goalId={goalId}/></div>
         </div>
       ) : (
         <div>Goal not found</div>
