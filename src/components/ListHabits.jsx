@@ -4,23 +4,23 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../config/api";
 
 
-function ListHabits({deleteHabit}) {
+function ListHabits({deleteHabit, fetchHabits, habits}) {
 
-    const [habits, setHabits] = useState(null);
+    // const [habits, setHabits] = useState(null);
 
-    const fetchHabits = () => {
-        axios
-          .get(`${API_URL}/api/habits`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-            },
-          })
-          .then((response) => {
-            const habits = response.data;
-            setHabits(habits);
-          })
-          .catch((error) => console.log(`Error: ${error}`));
-      };
+    // const fetchHabits = () => {
+    //     axios
+    //       .get(`${API_URL}/api/habits`, {
+    //         headers: {
+    //           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    //         },
+    //       })
+    //       .then((response) => {
+    //         const habits = response.data;
+    //         setHabits(habits);
+    //       })
+    //       .catch((error) => console.log(`Error: ${error}`));
+    //   };
 
       const handleDelete = async (habitId) => {
         await deleteHabit(habitId)

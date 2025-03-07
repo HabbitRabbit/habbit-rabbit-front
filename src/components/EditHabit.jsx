@@ -6,7 +6,6 @@ import { AuthContext } from "../context/auth.context";
 
 function EditHabit() {
 
-    const [habits, setHabits] = useState(null);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -20,27 +19,9 @@ function EditHabit() {
 
     const { storeToken } = useContext(AuthContext)
 
-
-    // useEffect(() => {
-    //     const fetchHabitDetails = async () => {
-    //         try {
-    //             const response = await axios.get(`${API_URL}/habits/${habitId}`);
-    //             setTitle(response.title);
-    //             setDescription(response.description);
-    //             setColor(response.color);
-    //             setFrequency(response.frequency);
-    //             setReminder(response.reminder);
-    //         } catch (error) {
-    //             console.log("Error getting project details from the API...", error);
-    //         }
-    //     };
-    
-    //     fetchHabitDetails();
-    // }, [habitId]);
-
     useEffect(() => {
-        const fetchHabitDetails = () => {
-            axios.get(`${API_URL}/api/habits`, {
+        if (habitId) {
+            axios.get(`${API_URL}/api/habits/${habitId}`, {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("authToken")}`,
                 },
@@ -55,37 +36,8 @@ function EditHabit() {
               })
               .catch((error) => console.log(`Error: ${error}`));
         }
-        fetchHabitDetails();
-    },[habitId])
+    }, [habitId])
 
-    // useEffect(() => {
-    //     const fetchHabitsAndDetails = async () => {
-    //         try {
-    //             // Fetch habits
-    //             const habitsResponse = await axios.get(`${API_URL}/api/habits`, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-    //                 },
-    //             });
-    //             const habits = habitsResponse.data;
-    //             setHabits(habits);
-    
-    //             // Fetch habit details if habitId is available
-    //             if (habitId) {
-    //                 const habitDetailsResponse = await axios.get(`${API_URL}/habits/${habitId}`);
-    //                 setTitle(habitDetailsResponse.data.title);
-    //                 setDescription(habitDetailsResponse.data.description);
-    //                 setColor(habitDetailsResponse.data.color);
-    //                 setFrequency(habitDetailsResponse.data.frequency);
-    //                 setReminder(habitDetailsResponse.data.reminder);
-    //             }
-    //         } catch (error) {
-    //             console.log("Error fetching data...", error);
-    //         }
-    //     };
-    
-    //     fetchHabitsAndDetails();
-    // }, [habitId]);
 
 
     const handleSubmit = async (event) => {
@@ -113,7 +65,7 @@ function EditHabit() {
                 },
             });
 
-            console.log("Goal created successfully:", response.data);
+            console.log("habit edited successfully:", response.data);
             
             
 

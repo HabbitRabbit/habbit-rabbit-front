@@ -5,8 +5,7 @@ import CreateGoal from "../components/CreateGoal";
 import { Link, useNavigate } from "react-router-dom";
 
 
-function Dashboard({deleteGoal}) {
-  const [goals, setGoals] = useState(null);
+function Dashboard({goals, fetchGoals, deleteGoal}) {
   const [showForm, setShowForm] = useState(false);
 
   const navigate = useNavigate()
@@ -15,19 +14,7 @@ function Dashboard({deleteGoal}) {
     setShowForm((prevShowForm) => !prevShowForm);
   };
 
-  const fetchGoals = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/goals`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      })
-
-      setGoals(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  
   const handleGoalCreation = () => {
     fetchGoals();
     setShowForm(false);
