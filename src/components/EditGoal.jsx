@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from "../../config/api";
 import { useNavigate, useParams } from "react-router-dom";
 
-function EditGoal({onGoalUpdated }) {
+function EditGoal() {
   const [name, setName] = useState("");
   const [targetFrequency, setTargetFrequency] = useState(0);
   const [period, setPeriod] = useState("daily");
@@ -52,7 +52,6 @@ function EditGoal({onGoalUpdated }) {
       });
 
       console.log("Goal updated successfully");
-      onGoalUpdated(); // Callback function to refresh the list or navigate
 
       navigate('/dashboard'); // Navigate or perform some action after update
 
