@@ -52,6 +52,7 @@ function Dashboard({goals, fetchGoals, deleteGoal}) {
               >
                 Delete
               </button>
+              <Link to={`/goals/edit/${goal._id}`}>EDIT</Link>
             </li>
           ))}
         </ul>
