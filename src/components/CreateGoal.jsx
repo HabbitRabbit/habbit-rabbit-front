@@ -13,9 +13,27 @@ function CreateGoal({ goalId, onGoalCreated }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const [habits, setHabits] = useState([])
+
   const navigate = useNavigate();
 
   const { storeToken } = useContext(AuthContext);
+
+
+  //useEffect to get the habits
+  useEffect(() => {
+    axios.get(`${API_URL}/api/habits/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    })
+    .then(response => {
+      setHabits(response.data)
+    })
+    .catch((error) => console.log(`Error: ${error}`));
+  })
+
+
 
   useEffect(() => {
     if (goalId) {
