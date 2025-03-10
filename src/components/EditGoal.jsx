@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 import { useNavigate, useParams } from "react-router-dom";
+import Select from "react-select";
 
 function EditGoal() {
   const [name, setName] = useState("");
@@ -13,7 +14,7 @@ function EditGoal() {
   const [selectedHabits, setSelectedHabits] = useState([]);  // State for selected habits
 
   const navigate = useNavigate();
-  const {goalId} = useParams()
+  const { goalId } = useParams()
 
 
   //Fetch the habits
@@ -38,18 +39,18 @@ function EditGoal() {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       })
-      .then((response) => {
-        const goal = response.data;
-        console.log(goal)
-        setName(goal.name);
-        setTargetFrequency(goal.targetFrequency);
-        setPeriod(goal.period);
-        setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
-        setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
-        const habitIds = goal.habits.map(habit => habit.habit._id); // Extract habit IDs
+        .then((response) => {
+          const goal = response.data;
+          console.log(goal)
+          setName(goal.name);
+          setTargetFrequency(goal.targetFrequency);
+          setPeriod(goal.period);
+          setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
+          setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
+          const habitIds = goal.habits.map(habit => habit.habit._id); // Extract habit IDs
           setSelectedHabits(habitIds);
-      })
-      .catch((error) => console.error("Error fetching goal data:", error));
+        })
+        .catch((error) => console.error("Error fetching goal data:", error));
     }
   }, [goalId]);
 
@@ -73,12 +74,19 @@ function EditGoal() {
 
       console.log("Goal updated successfully");
 
-      navigate('/dashboard'); // Navigate or perform some action after update
+      navigate(`/goals/${goalId}`); // Navigate or perform some action after update
 
     } catch (error) {
       console.error("There was an error updating the goal!", error);
     }
   };
+
+  // Transform habits data for Select options
+  const habitOptions = habits.map((habit) => ({
+    label: habit.title,
+    value: habit._id,
+  }));
+  console.log(habits)
 
   return (
     <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
@@ -145,18 +153,13 @@ function EditGoal() {
         </div>
         <div>
           <label className="block text-gray-700">Select Habits:</label>
-          <select
-            multiple
-            value={selectedHabits}
-            onChange={(e) => setSelectedHabits(Array.from(e.target.selectedOptions, option => option.value))}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-          >
-            {habits.map((habit) => (
-              <option key={habit._id} value={habit._id}>
-                {habit.name}
-              </option>
-            ))}
-          </select>
+          <Select
+            isMulti
+            options={habitOptions}
+            value={habitOptions.filter(option => selectedHabits.includes(option.value))}
+            onChange={(selectedOptions) => setSelectedHabits(selectedOptions.map(option => option.value))}
+            className="mt-1"
+          />
         </div>
         <button
           type="submit"
