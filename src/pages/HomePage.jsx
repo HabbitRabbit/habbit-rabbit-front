@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CalendarView from "../components/CalendarView"
 import axios from "axios";
+import CurrentWeekRow from "../components/WeeklyView";
 
 
 function HomePage({habits, fetchHabits}){
@@ -26,11 +27,12 @@ function HomePage({habits, fetchHabits}){
     //     }, [])
     
     // console.log(habits)
-    
+
     return (
         <div>
             <h1>This is the Homepage</h1>
-            <CalendarView habits={habits} fetchHabits={fetchHabits}></CalendarView>
+            {/* <CalendarView habits={habits} fetchHabits={fetchHabits}></CalendarView> */}
+            <CurrentWeekRow />
         </div>
     )
 }
