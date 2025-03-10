@@ -174,21 +174,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
           </label>
         </div>
         <div>
-          {/* <label className="block text-gray-700">
-            Select habits:
-            <select
-              multiple
-              value={selectedHabits}
-              onChange={(e) => setSelectedHabits(Array.from(e.target.selectedOptions, option => option.value))}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            >
-              {habits.map((habit) => (
-                <option key={habit.id} value={habit._id}>
-                  {habit.title}
-                </option>
-              ))}
-            </select>
-          </label> */}
           <label className="block text-gray-700">
             Select habits:
             <Select
