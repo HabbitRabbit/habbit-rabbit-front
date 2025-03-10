@@ -8,7 +8,7 @@ function CreateHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("");
+    const [color, setColor] = useState("blue-100");
     const [frequency, setFrequency] = useState("daily");
     const [createdBy, setCreatedBy] = useState("");
     const [reminder, setReminder] = useState("")
@@ -46,14 +46,14 @@ function CreateHabit() {
             // Reset form fields
             setTitle("");
             setDescription("");
-            setColor("");
+            setColor("blue-100");
             setFrequency("daily");
             setReminder("");
 
             navigate('/habits')
 
         } catch (error) {
-            console.error("There was an error creating the goal!", error);
+            console.error("There was an error creating the habit!", error);
         }
     };
 
