@@ -91,7 +91,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
       setEndDate("");
       setSelectedHabits([]);
 
-
       navigate('/dashboard');
 
     } catch (error) {
