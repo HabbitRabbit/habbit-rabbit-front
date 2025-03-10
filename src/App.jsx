@@ -101,7 +101,7 @@ const fetchGoals = async () => {
 
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage habits={habits} fetchHabits={fetchHabits} />} />
         <Route path="/create-goal" element={<CreateGoal fetchHabits={fetchHabits}/>} />
         <Route path="/goals/:goalId" element={<GoalDetail goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal} fetchHabits={fetchHabits} habits={habits}/>}/>
         <Route path="/goals/edit/:goalId" element={<EditGoal />}/>

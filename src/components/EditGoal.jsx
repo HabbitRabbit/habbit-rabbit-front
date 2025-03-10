@@ -7,8 +7,6 @@ import Select from "react-select";
 
 function EditGoal() {
   const [name, setName] = useState("");
-  const [targetFrequency, setTargetFrequency] = useState(0);
-  const [period, setPeriod] = useState("daily");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [habits, setHabits] = useState([]);  // State for available habits
@@ -43,8 +41,6 @@ function EditGoal() {
         .then((response) => {
           const goal = response.data;
           setName(goal.name);
-          setTargetFrequency(goal.targetFrequency);
-          setPeriod(goal.period);
           setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
           setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
           const habitIds = goal.habits.map(habit => habit.habit._id); // Extract habit IDs
@@ -59,8 +55,6 @@ function EditGoal() {
     try {
       const updatedGoal = {
         name,
-        targetFrequency,
-        period,
         startDate,
         endDate,
         habits: selectedHabits.map(id => ({ habit: id }))
@@ -101,31 +95,6 @@ function EditGoal() {
               required
               className="mt-1 block w-full p-2 border border-gray-300 rounded"
             />
-          </label>
-        </div>
-        <div>
-          <label className="block text-gray-700">
-            Target Frequency:
-            <input
-              type="number"
-              value={targetFrequency}
-              onChange={(e) => setTargetFrequency(Number(e.target.value))}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            />
-          </label>
-        </div>
-        <div>
-          <label className="block text-gray-700">
-            Period:
-            <select
-              value={period}
-              onChange={(e) => setPeriod(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
           </label>
         </div>
         <div>

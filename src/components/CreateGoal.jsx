@@ -11,8 +11,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
 
 
   const [name, setName] = useState("");
-  const [targetFrequency, setTargetFrequency] = useState(0);
-  const [period, setPeriod] = useState("daily");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -54,8 +52,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
         .then((response) => {
           const goal = response.data;
           setName(goal.name);
-          setTargetFrequency(goal.targetFrequency);
-          setPeriod(goal.period);
           setStartDate(goal.startDate ? new Date(goal.startDate).toISOString().split('T')[0] : "");
           setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
           // Set selected habits if the goal has habits
@@ -76,8 +72,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
 
       const newGoal = {
         name,
-        targetFrequency,
-        period,
         startDate,
         endDate,
         habits: selectedHabits.map((habitId) => ({ habit: habitId, achievedCount: 0 })), // Map selected habit IDs to the habit objects
@@ -93,8 +87,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
       console.log("Goal created successfully:", response.data);
       // Reset form fields
       setName("");
-      setTargetFrequency(0);
-      setPeriod("daily");
       setStartDate("");
       setEndDate("");
       setSelectedHabits([]);
@@ -126,31 +118,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
               required
               className="mt-1 block w-full p-2 border border-gray-300 rounded"
             />
-          </label>
-        </div>
-        <div>
-          <label className="block text-gray-700">
-            Target Frequency:
-            <input
-              type="number"
-              value={targetFrequency}
-              onChange={(e) => setTargetFrequency(Number(e.target.value))}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            />
-          </label>
-        </div>
-        <div>
-          <label className="block text-gray-700">
-            Period:
-            <select
-              value={period}
-              onChange={(e) => setPeriod(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-            >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
           </label>
         </div>
         <div>
