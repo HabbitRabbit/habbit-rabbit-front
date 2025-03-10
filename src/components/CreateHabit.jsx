@@ -12,7 +12,7 @@ function CreateHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("");
+    const [color, setColor] = useState("#0000FF");
     const [frequency, setFrequency] = useState("daily");
     const [createdBy, setCreatedBy] = useState("");
     const [reminder, setReminder] = useState("")
