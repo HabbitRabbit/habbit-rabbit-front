@@ -41,7 +41,6 @@ function EditGoal() {
       })
         .then((response) => {
           const goal = response.data;
-          console.log(goal)
           setName(goal.name);
           setTargetFrequency(goal.targetFrequency);
           setPeriod(goal.period);
@@ -86,7 +85,6 @@ function EditGoal() {
     label: habit.title,
     value: habit._id,
   }));
-  console.log(habits)
 
   return (
     <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
