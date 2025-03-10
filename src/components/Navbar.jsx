@@ -18,6 +18,8 @@ function Navbar() {
                 <Link to="/habits" >Habits</Link>
                 <br></br>
                 <Link to="/create-habit" >Create habit</Link>
+                <br />
+                <Link to="/login"> Login/Signup </Link>
                 </div>
             </div>
         </nav>
