@@ -3,8 +3,8 @@ import axios from "axios";
 import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
-  
 function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
 
 
@@ -37,7 +37,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
         setHabits(response.data); // Set all habits
       })
       .catch((error) => console.log(`Error fetching habits: ${error}`));
-  }, []); 
+  }, []);
 
 
 
@@ -105,6 +105,11 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
     }
   };
 
+  const habitOptions = habits.map((habit) => ({
+    label: habit.title,
+    value: habit._id,
+  }));
+
   return (
     <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
       <h2 className="text-xl font-semibold mb-4">{goalId ? "Edit Goal" : "Create a New Goal"}</h2>
@@ -169,21 +174,34 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
           </label>
         </div>
         <div>
-          <label className="block text-gray-700">
-            Habits:
+          {/* <label className="block text-gray-700">
+            Select habits:
             <select
               multiple
               value={selectedHabits}
               onChange={(e) => setSelectedHabits(Array.from(e.target.selectedOptions, option => option.value))}
               className="mt-1 block w-full p-2 border border-gray-300 rounded"
             >
-              <option value="">Select habits</option>
               {habits.map((habit) => (
                 <option key={habit.id} value={habit._id}>
                   {habit.title}
                 </option>
               ))}
             </select>
+          </label> */}
+          <label className="block text-gray-700">
+            Select habits:
+            <Select
+              isMulti
+              options={habitOptions}
+              value={habitOptions.filter((option) =>
+                selectedHabits.includes(option.value)
+              )}
+              onChange={(selectedOptions) =>
+                setSelectedHabits(selectedOptions.map((option) => option.value))
+              }
+              className="mt-1"
+            />
           </label>
         </div>
         <button
