@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import CalendarView from "../components/CalendarView"
 import axios from "axios";
-import CurrentWeekRow from "../components/WeeklyView";
+import WeeklyView from "../components/WeeklyView";
 
 
-function HomePage({habits, fetchHabits}){
+function HomePage({goals, fetchGoals, habits, fetchHabits}){
 
     // const [habits, setHabits] = useState(null);
 
@@ -32,7 +32,7 @@ function HomePage({habits, fetchHabits}){
         <div>
             <h1>This is the Homepage</h1>
             {/* <CalendarView habits={habits} fetchHabits={fetchHabits}></CalendarView> */}
-            <CurrentWeekRow />
+            <WeeklyView goals={goals} fetchGoals={fetchGoals} habits={habits} fetchHabits={fetchHabits}/>
         </div>
     )
 }
