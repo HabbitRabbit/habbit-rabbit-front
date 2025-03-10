@@ -9,7 +9,7 @@ function EditHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("");
+    const [color, setColor] = useState("blue-100");
     const [frequency, setFrequency] = useState("");
     const [reminder, setReminder] = useState("")
 
@@ -50,7 +50,7 @@ function EditHabit() {
             const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
             const userId = decodedToken._id; // Extract user ID from the token payload
             console.log(userId)
-            const newHabit = {
+            const newHabitDetails = {
                 title,
                 description,
                 color,
@@ -59,7 +59,7 @@ function EditHabit() {
                 reminder
             };
 
-            const response = await axios.post(`${API_URL}/api/habits`, newHabit, {
+            const response = await axios.patch(`${API_URL}/api/habits/${habitId}`, newHabitDetails, {
                 headers: {
                     Authorization: `Bearer ${userToken}`,
                 },
@@ -106,12 +106,17 @@ function EditHabit() {
                 <div>
                     <label className="block text-gray-700">
                         Color:
-                        <input
-                            type="text"
+                        <select
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
+                        >
+                            <option value="blue-100">Blue</option>
+                            <option value="red-100">Red</option>
+                            <option value="green-100">Green</option>
+                            <option value="pink-100">Pink</option>
+                            <option value="yellow-100">Yellow</option>
+                        </select>
                     </label>
                 </div>
                 <div>

@@ -8,7 +8,7 @@ function CreateHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("");
+    const [color, setColor] = useState("blue-100");
     const [frequency, setFrequency] = useState("daily");
     const [createdBy, setCreatedBy] = useState("");
     const [reminder, setReminder] = useState("")
@@ -46,14 +46,14 @@ function CreateHabit() {
             // Reset form fields
             setTitle("");
             setDescription("");
-            setColor("");
+            setColor("blue-100");
             setFrequency("daily");
             setReminder("");
 
             navigate('/habits')
 
         } catch (error) {
-            console.error("There was an error creating the goal!", error);
+            console.error("There was an error creating the habit!", error);
         }
     };
 
@@ -87,12 +87,17 @@ function CreateHabit() {
                 <div>
                     <label className="block text-gray-700">
                         Color:
-                        <input
-                            type="text"
+                        <select
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
+                        >
+                            <option value="blue-100">Blue</option>
+                            <option value="red-100">Red</option>
+                            <option value="green-100">Green</option>
+                            <option value="pink-100">Pink</option>
+                            <option value="yellow-100">Yellow</option>
+                        </select>
                     </label>
                 </div>
                 <div>
