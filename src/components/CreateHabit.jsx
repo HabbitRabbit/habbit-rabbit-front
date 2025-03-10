@@ -3,12 +3,16 @@ import axios from "axios";
 import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import { colorOptions, dot, colourStyles } from "../data/data";
+
+import Select from "react-select";
+import makeAnimated from 'react-select/animated';
 
 function CreateHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("blue-100");
+    const [color, setColor] = useState("");
     const [frequency, setFrequency] = useState("daily");
     const [createdBy, setCreatedBy] = useState("");
     const [reminder, setReminder] = useState("")
@@ -46,7 +50,7 @@ function CreateHabit() {
             // Reset form fields
             setTitle("");
             setDescription("");
-            setColor("blue-100");
+            setColor("");
             setFrequency("daily");
             setReminder("");
 
@@ -85,20 +89,14 @@ function CreateHabit() {
                     </label>
                 </div>
                 <div>
-                    <label className="block text-gray-700">
-                        Color:
-                        <select
-                            value={color}
-                            onChange={(e) => setColor(e.target.value)}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        >
-                            <option value="blue-100">Blue</option>
-                            <option value="red-100">Red</option>
-                            <option value="green-100">Green</option>
-                            <option value="pink-100">Pink</option>
-                            <option value="yellow-100">Yellow</option>
-                        </select>
-                    </label>
+                    <label className="block text-gray-700">Color:</label>
+                    <Select
+                        value={color ? colorOptions.find((option) => option.value === color) : null}
+                        onChange={(selectedOption) => setColor(selectedOption.value)}
+                        options={colorOptions}
+                        styles={colourStyles}
+                        className="mt-1"
+                    />
                 </div>
                 <div>
                     <label className="block text-gray-700">

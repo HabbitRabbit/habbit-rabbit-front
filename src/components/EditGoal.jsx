@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { animatedComponents } from "../data/data";
 import Select from "react-select";
 
 function EditGoal() {
@@ -154,6 +155,7 @@ function EditGoal() {
           <Select
             isMulti
             options={habitOptions}
+            components={animatedComponents}
             value={habitOptions.filter(option => selectedHabits.includes(option.value))}
             onChange={(selectedOptions) => setSelectedHabits(selectedOptions.map(option => option.value))}
             className="mt-1"

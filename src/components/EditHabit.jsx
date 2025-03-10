@@ -4,16 +4,20 @@ import { useNavigate, useParams } from "react-router-dom"
 import { API_URL } from "../../config/api"
 import { AuthContext } from "../context/auth.context";
 
+import { colorOptions, dot, colourStyles } from "../data/data";
+
+import Select from "react-select";
+
 function EditHabit() {
 
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("blue-100");
+    const [color, setColor] = useState("");
     const [frequency, setFrequency] = useState("");
     const [reminder, setReminder] = useState("")
 
-    const {habitId} = useParams();
+    const { habitId } = useParams();
 
     const navigate = useNavigate()
 
@@ -23,21 +27,19 @@ function EditHabit() {
         if (habitId) {
             axios.get(`${API_URL}/api/habits/${habitId}`, {
                 headers: {
-                  Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
                 },
-              })
-              .then((response) => {
-                
-                setTitle(response.data.title);
-                setDescription(response.data.description);
-                setColor(response.data.color);
-                setFrequency(response.data.frequency);
-                setReminder(response.data.reminder);
-              })
-              .catch((error) => console.log(`Error: ${error}`));
+            })
+                .then((response) => {
+                    setTitle(response.data.title);
+                    setDescription(response.data.description);
+                    setColor(response.data.color);
+                    setFrequency(response.data.frequency);
+                    setReminder(response.data.reminder);
+                })
+                .catch((error) => console.log(`Error: ${error}`));
         }
     }, [habitId])
-
 
 
     const handleSubmit = async (event) => {
@@ -49,7 +51,7 @@ function EditHabit() {
             console.log(userToken)
             const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
             const userId = decodedToken._id; // Extract user ID from the token payload
-            console.log(userId)
+
             const newHabitDetails = {
                 title,
                 description,
@@ -66,11 +68,8 @@ function EditHabit() {
             });
 
             console.log("habit edited successfully:", response.data);
-            
-            
 
             navigate('/habits')
-
         } catch (error) {
             console.error("There was an error edit habit!", error);
         }
@@ -104,20 +103,14 @@ function EditHabit() {
                     </label>
                 </div>
                 <div>
-                    <label className="block text-gray-700">
-                        Color:
-                        <select
-                            value={color}
-                            onChange={(e) => setColor(e.target.value)}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        >
-                            <option value="blue-100">Blue</option>
-                            <option value="red-100">Red</option>
-                            <option value="green-100">Green</option>
-                            <option value="pink-100">Pink</option>
-                            <option value="yellow-100">Yellow</option>
-                        </select>
-                    </label>
+                    <label className="block text-gray-700">Color:</label>
+                    <Select
+                        value={color ? colorOptions.find((option) => option.value === color) : null}
+                        onChange={(selectedOption) => setColor(selectedOption.value)}
+                        options={colorOptions}
+                        styles={colourStyles}
+                        className="mt-1"
+                    />
                 </div>
                 <div>
                     <label className="block text-gray-700">
@@ -153,7 +146,7 @@ function EditHabit() {
             </form>
         </div>
     )
-    
+
 }
 
 export default EditHabit

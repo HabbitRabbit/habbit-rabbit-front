@@ -3,6 +3,8 @@ import axios from "axios";
 import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import { animatedComponents } from "../data/data";
+
 import Select from "react-select";
 
 function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
@@ -179,6 +181,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
             <Select
               isMulti
               options={habitOptions}
+              components={animatedComponents}
               value={habitOptions.filter((option) =>
                 selectedHabits.includes(option.value)
               )}
