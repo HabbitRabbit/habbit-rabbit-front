@@ -87,12 +87,17 @@ function CreateHabit() {
                 <div>
                     <label className="block text-gray-700">
                         Color:
-                        <input
-                            type="text"
+                        <select
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
+                        >
+                            <option value="#0000ff">Blue</option>
+                            <option value="#ff0000">Red</option>
+                            <option value="#0fff00">Green</option>
+                            <option value="#ff00dc">Pink</option>
+                            <option value="#ecff00">Yellow</option>
+                        </select>
                     </label>
                 </div>
                 <div>
