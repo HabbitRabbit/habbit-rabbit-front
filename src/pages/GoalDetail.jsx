@@ -4,8 +4,8 @@ import axios from "axios";
 import { API_URL } from "../../config/api";
 import EditGoal from "../components/EditGoal";
 
-function GoalDetail({deleteGoal}) {
-  const { goalId } = useParams(); // Retrieve the goal ID from URL parameters
+function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
+  const { goalId } = useParams();
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,18 +33,32 @@ function GoalDetail({deleteGoal}) {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded">
-      <h1 className="text-2xl font-bold mb-4">Goal Details</h1>
+    <div className="max-w-4xl mx-auto p-6 bg-indigo-100 shadow-lg rounded-lg">
+      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-800">Goal Details</h1>
       {goal ? (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">{goal.name}</h2>
+        <div className="bg-white p-4 rounded-md shadow-md">
+          <h2 className="text-2xl font-semibold mb-4 text-pink-600">{goal.name}</h2>
           <p><strong>Target Frequency:</strong> {goal.targetFrequency}</p>
           <p><strong>Period:</strong> {goal.period}</p>
           <p><strong>Start Date:</strong> {new Date(goal.startDate).toLocaleDateString()}</p>
           <p><strong>End Date:</strong> {goal.endDate ? new Date(goal.endDate).toLocaleDateString() : "Ongoing"}</p>
-          {/* TODO Add the habits here + fix na */}
+          
+          <div className="mt-8 border-t pt-4">
+            <p className="font-semibold mb-4 text-indigo-800"><strong>Habits: </strong></p>
+            <div className="space-y-3">
+              {goal.habits.map((habitObj) => {
+                return (
+                  <p key={habitObj.habit._id} className="bg-indigo-200 p-3 rounded-full text-center shadow-sm">
+                    {habitObj.habit.title}: Frequency: {habitObj.habit.frequency}
+                  </p>
+                );
+              })}
+            </div>
+          </div>
 
-          <Link to={`/goals/edit/${goalId}`}> EDIT </Link>
+          <Link to={`/goals/edit/${goalId}`} className="block mt-6 text-center text-blue-600 hover:text-blue-800">
+            Edit Goal
+          </Link>
         </div>
       ) : (
         <div>Goal not found</div>
