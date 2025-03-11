@@ -19,8 +19,7 @@ import ListHabits from './components/ListHabits'
 import { API_URL } from '../config/api'
 import EditHabit from './components/EditHabit'
 import EditGoal from './components/EditGoal'
-
-
+import IsPrivate from './components/IsPrivate'
 
 function App() {
 
@@ -102,14 +101,14 @@ const fetchGoals = async () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage goals={goals} fetchGoals={fetchGoals} habits={habits} fetchHabits={fetchHabits} />} />
-        <Route path="/create-goal" element={<CreateGoal fetchHabits={fetchHabits}/>} />
-        <Route path="/goals/:goalId" element={<GoalDetail goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal} fetchHabits={fetchHabits} habits={habits}/>}/>
-        <Route path="/goals/edit/:goalId" element={<EditGoal />}/>
-        <Route path="/create-habit" element={<CreateHabit />} />
-        <Route path="/habits" element={<ListHabits deleteHabit={deleteHabit} fetchHabits={fetchHabits} habits={habits}/>} />
-        <Route path="/habits/:habitId" element={<HabitDetail deleteHabit = {deleteHabit} />} />
-        <Route path="/habits/edit/:habitId" element={<EditHabit/>} />
-        <Route path="/dashboard" element={<Dashboard goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal}/>} />
+        <Route path="/create-goal" element={ <IsPrivate> <CreateGoal fetchHabits={fetchHabits}/> </IsPrivate>} />
+        <Route path="/goals/:goalId" element={<IsPrivate> <GoalDetail goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal} fetchHabits={fetchHabits} habits={habits} /> /</IsPrivate> }/>
+        <Route path="/goals/edit/:goalId" element={<IsPrivate> <EditGoal /> </IsPrivate> }/>
+        <Route path="/create-habit" element={<IsPrivate> <CreateHabit/> </IsPrivate> } />
+        <Route path="/habits" element={<IsPrivate> <ListHabits deleteHabit={deleteHabit} fetchHabits={fetchHabits} habits={habits}/> </IsPrivate> } />
+        <Route path="/habits/:habitId" element={<IsPrivate>  <HabitDetail deleteHabit = {deleteHabit} /> </IsPrivate> } />
+        <Route path="/habits/edit/:habitId" element={<IsPrivate> <EditHabit/> </IsPrivate> } />
+        <Route path="/dashboard" element={<IsPrivate> <Dashboard goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal}/> </IsPrivate>} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
         <Route path="/login" element={<LoginPage />}/>
