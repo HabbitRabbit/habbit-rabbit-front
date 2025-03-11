@@ -6,6 +6,7 @@ import { API_URL } from "../../config/api";
 function SignupPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
 
@@ -13,10 +14,18 @@ function SignupPage(props) {
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
+  const handleConfirmPassword = (e) => setConfirmPassword(e.target.value);
   const handleName = (e) => setName(e.target.value);
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+
     const requestBody = { email, password, name };
 
     axios.post(`${API_URL}/auth/signup`, requestBody)
@@ -54,6 +63,18 @@ function SignupPage(props) {
               name="password"
               value={password}
               onChange={handlePassword}
+              className="w-full mt-1 p-2 border border-gray-300 rounded"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700">Confirm Password:</label>
+            <input 
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={handleConfirmPassword}
               className="w-full mt-1 p-2 border border-gray-300 rounded"
               required
             />
