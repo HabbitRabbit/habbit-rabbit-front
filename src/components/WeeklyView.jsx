@@ -11,31 +11,27 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [habitStatus, setHabitStatus] = useState({});
 
 
-  
   useEffect(() => {
     fetchGoals();
-  }, []);
-
-  useEffect(() => {
     fetchHabits();
   }, []);
 
-  useEffect(() => {
-    // Initialize habit status when goals and habits are available
-    if (habits && goals) {
-      const initialStatus = {};
-      habits.forEach((habit) => {
-        initialStatus[habit._id] = false; // default to unchecked
-      });
-      setHabitStatus(initialStatus);
-    }
-  }, [habits, goals]);
+  // useEffect(() => {
+  //   // Initialize habit status when goals and habits are available
+  //   if (habits && goals) {
+  //     const initialStatus = {};
+  //     habits.forEach((habit) => {
+  //       initialStatus[habit._id] = false; // default to unchecked
+  //     });
+  //     setHabitStatus(initialStatus);
+  //   }
+  // }, [habits, goals]);
 
   if (goals === null || habits === null) {
     return <h2>Loading...</h2>;
   }
   
-
+  console.log(goals)
   // Function to check if a date is within the current week (Monday to Sunday)
   const isDateInCurrentWeek = (dateToCheck) => {
     const today = new Date(); // Get today's date
@@ -47,19 +43,14 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const handleDayClick = (date) => {
     setSelectedDate(date); // Update the selected date
   };
+  
 
   // Handle habit check update
   const updateHabit = (habitId, isChecked) => {
-    // Update local status first
-    setHabitStatus((prevStatus) => ({
-      ...prevStatus,
-      [habitId]: isChecked,
-    }));
-
-    // Send update request to API
+    console.log(habitId);
     axios.patch(
       `${API_URL}/api/habits/${habitId}/check`,
-      { check: isChecked, date: selectedDate.toDateString() }, // You may also include the specific date here
+      { check: isChecked},
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -73,6 +64,15 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
         console.error("Error updating habit check:", err);
       });
   };
+
+
+    // Update local status first
+    // setHabitStatus((prevStatus) => ({
+    //   ...prevStatus,
+    //   [habitId]: isChecked,
+    // }));
+
+    // Send update request to API
 
   // Handle submit of today's habits
   const handleSubmit = () => {
@@ -103,9 +103,9 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       <div>
         <h3>Habits for {selectedDate.toLocaleDateString()}</h3>
         {goals.map((goal) => (
-            <div>
-              <p key={goal._id}>GOAL NAME: {goal.name}</p>
-              <p>{goal.habits.map((habitObj) => {
+            <div key={goal._id}>
+              <p>GOAL NAME: {goal.name}</p>
+              <ul>{goal.habits.map((habitObj) => {
                 return (
                   // <p key={habitObj.habit._id}>
                   //   habit name: {habitObj.habit.title}
@@ -119,7 +119,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   <span className="ml-2">habit name: {habitObj.habit.title}</span>
                 </li>
                 );
-              })}</p>
+              })}</ul>
             </div>
             
             
