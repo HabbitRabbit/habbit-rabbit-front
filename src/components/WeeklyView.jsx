@@ -22,12 +22,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     fetchData();
   }, []);
 
-
-  useEffect(() => {
-    console.log('Habits:', habits);
-    console.log('Goals:', goals);
-  }, [habits, goals]);
-
   // Initialize habit status when goals and habits are available
   useEffect(() => {
     if (habits && goals) {
@@ -73,23 +67,22 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     });
   };
 
-  // Function to update habit status on the server
-  const updateHabit = (habitId, isChecked) => {
-    axios.patch(
-      `${API_URL}/api/habits/${habitId}/check`,
-      { check: isChecked },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      }
-    )
-      .then((response) => {
-        console.log("Habit check updated:", response.data);
-      })
-      .catch((err) => {
-        console.error("Error updating habit check:", err);
-      });
+  // Function to update habit status on the server (in ASYNC-AWAIT)
+  const updateHabit = async (habitId, isChecked) => {
+    try {
+      const response = await axios.patch(
+        `${API_URL}/api/habits/${habitId}/check`,
+        { check: isChecked },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      console.log("Habit check updated:", response.data);
+    } catch (err) {
+      console.error("Error updating habit check:", err);
+    }
   };
 
   return (
@@ -109,17 +102,21 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
         <h3>Habits for {selectedDate.toLocaleDateString()}</h3>
         {goals && goals.length && goals.map((goal) => (
           <div key={goal._id}>
-            <p>GOAL NAME: {goal.name}</p>
+           <p>
+              GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount}, Remaining: {goal.remainingAchievedCount})
+            </p>
             <ul>
               {goal.habits.map((habitObj) => (
-                <li key={habitObj._id} className="flex items-center my-2">
-                  <input
-                    type="checkbox"
-                    checked={localHabitStatus[habitObj._id] || false} // Manage status locally
-                    onChange={() => handleHabitChange(habitObj._id, !localHabitStatus[habitObj.habit._id])} // Only update local state
-                  />
-                  <span className="ml-2">habit name: {habitObj.habit.title}</span>
-                </li>
+                habitObj.habit && (
+                  <li key={habitObj._id} className="flex items-center my-2">
+                    <input
+                      type="checkbox"
+                      checked={localHabitStatus[habitObj.habit._id] || false}
+                      onChange={() => handleHabitChange(habitObj.habit._id, !localHabitStatus[habitObj.habit._id])}
+                    />
+                    <span className="ml-2">habit name: {habitObj.habit.title}</span>
+                  </li>
+                )
               ))}
             </ul>
           </div>
@@ -128,7 +125,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
         {selectedDate.toDateString() === new Date().toDateString() && (
           <div className="text-center mt-4">
             <button
-              onClick={handleSubmit} // Submit all changes when clicked
+              onClick={handleSubmit}
               className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
             >
               Submit Today's Habits
