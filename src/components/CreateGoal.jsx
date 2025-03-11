@@ -15,17 +15,29 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
   const [endDate, setEndDate] = useState("");
 
   const [habits, setHabits] = useState([])
-  const [selectedHabits, setSelectedHabits] = useState("");
+  const [selectedHabits, setSelectedHabits] = useState([]);
 
   const navigate = useNavigate();
 
   const { storeToken } = useContext(AuthContext);
 
 
-  //useEffect to get the habits
-  // useEffect(() => {
-  //   fetchHabits() dont know why this is not working
-  // }, []) 
+  const associateHabitWithGoal = async (habitId, goalId, userId) => {
+    try {
+      const response = await axios.post(`${API_URL}/api/progress`, {
+        habitId,
+        goalId,
+        userId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      console.log("Progress entry created:", response.data);
+    } catch (error) {
+      console.error("Error creating progress entry:", error);
+    }
+  };
 
   useEffect(() => {
     axios.get(`${API_URL}/api/habits/`, {
@@ -56,7 +68,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
           setEndDate(goal.endDate ? new Date(goal.endDate).toISOString().split('T')[0] : "");
           // Set selected habits if the goal has habits
           if (goal.habits && goal.habits.length > 0) {
-            setSelectedHabits(goal.habits.map((habit) => habit.habit)); // Set the habit IDs
+            setSelectedHabits(goal.habits.map((habit) => habit._id)); // Set the habit IDs
           }
         })
         .catch((error) => console.error("Error fetching goal data:", error));
@@ -65,6 +77,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Selected Habits:", selectedHabits);
     try {
       const userToken = localStorage.getItem("authToken");
       const decodedToken = JSON.parse(atob(userToken.split('.')[1])); // Decode JWT payload
@@ -85,18 +98,27 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
       });
 
       console.log("Goal created successfully:", response.data);
-      // Reset form fields
-      setName("");
-      setStartDate("");
-      setEndDate("");
-      setSelectedHabits([]);
+      const createdGoal = response.data;
 
-      navigate('/dashboard');
+    // Create progress entries for each habit associated with the new goal
+    await Promise.all(selectedHabits.map((habitId) => 
+      associateHabitWithGoal(habitId, createdGoal._id, userId)
+    ));
 
-    } catch (error) {
-      console.error("There was an error saving the goal!", error);
-    }
-  };
+    console.log("Goal created successfully:", createdGoal);
+
+    // Reset form fields
+    setName("");
+    setStartDate("");
+    setEndDate("");
+    setSelectedHabits([]);
+
+    navigate('/dashboard');
+
+  } catch (error) {
+    console.error("There was an error saving the goal!", error);
+  }
+};
 
   const habitOptions = habits.map((habit) => ({
     label: habit.title,
