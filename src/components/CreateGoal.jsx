@@ -104,8 +104,10 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
   }));
 
   return (
-    <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
-      <h2 className="text-xl font-semibold mb-4">{goalId ? "Edit Goal" : "Create a New Goal"}</h2>
+    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 shadow-2xl rounded-3xl border-4 border-blue-300">
+      <h2 className="text-3xl font-bold mb-4 text-purple-800 font-alice">
+        {goalId ? "Edit Goal" : "Create a New Goal"}
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-gray-700">
@@ -115,7 +117,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
             />
           </label>
         </div>
@@ -126,7 +128,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
             />
           </label>
         </div>
@@ -137,7 +139,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
             />
           </label>
         </div>
@@ -160,7 +162,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
         </div>
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+          className="bg-purple-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-purple-600 transition duration-300 ease-in-out transform hover:scale-105"
         >
           {goalId ? "Save Changes" : "Create Goal"}
         </button>
