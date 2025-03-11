@@ -26,9 +26,10 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
       }
     };
 
+   
     fetchGoal();
   }, [goalId]);
-
+ console.log(goal)
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 

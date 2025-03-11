@@ -10,11 +10,23 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [habitStatus, setHabitStatus] = useState({});
   const [localHabitStatus, setLocalHabitStatus] = useState({}); // Add a state to track changes locally
+  const [loading, setLoading] = useState(true); // Add loading state
+
 
   useEffect(() => {
-    fetchGoals();
-    fetchHabits();
+    const fetchData = async () => {
+      await fetchGoals();
+      await fetchHabits();
+      setLoading(false); // Set loading to false once data is fetched
+    };
+    fetchData();
   }, []);
+
+
+  useEffect(() => {
+    console.log('Habits:', habits);
+    console.log('Goals:', goals);
+  }, [habits, goals]);
 
   // Initialize habit status when goals and habits are available
   useEffect(() => {
@@ -28,7 +40,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     }
   }, [habits, goals, selectedDate]);
 
-  if (goals === null || habits === null) {
+  if (loading || goals === null || habits === null) {
     return <h2>Loading...</h2>;
   }
 
@@ -95,16 +107,16 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
       <div>
         <h3>Habits for {selectedDate.toLocaleDateString()}</h3>
-        {goals.map((goal) => (
+        {goals && goals.length && goals.map((goal) => (
           <div key={goal._id}>
             <p>GOAL NAME: {goal.name}</p>
             <ul>
               {goal.habits.map((habitObj) => (
-                <li key={habitObj.habit._id} className="flex items-center my-2">
+                <li key={habitObj._id} className="flex items-center my-2">
                   <input
                     type="checkbox"
-                    checked={localHabitStatus[habitObj.habit._id] || false} // Manage status locally
-                    onChange={() => handleHabitChange(habitObj.habit._id, !localHabitStatus[habitObj.habit._id])} // Only update local state
+                    checked={localHabitStatus[habitObj._id] || false} // Manage status locally
+                    onChange={() => handleHabitChange(habitObj._id, !localHabitStatus[habitObj.habit._id])} // Only update local state
                   />
                   <span className="ml-2">habit name: {habitObj.habit.title}</span>
                 </li>
