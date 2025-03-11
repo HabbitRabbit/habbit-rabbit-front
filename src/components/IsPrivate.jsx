@@ -13,10 +13,14 @@ function IsPrivate( { children } ) {
 
   if (!isLoggedIn) {
   // If the user is not logged in 
+  console.log("I AM NOT LOGGED IN")
     return <Navigate to="/login" />;
   } else {
   // If the user is logged in, allow to see the page 
-    return children;
+  
+      
+      return children;
+  
   }
 }
 

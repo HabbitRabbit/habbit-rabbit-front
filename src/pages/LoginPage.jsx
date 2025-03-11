@@ -14,35 +14,38 @@ function LoginPage(props) {
   
   const navigate = useNavigate();
 
-    const { storeToken, authenticateUser } = useContext(AuthContext)
+    const { storeToken, authenticateUser,isLoggedIn } = useContext(AuthContext)
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
   
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const requestBody = { email, password };
- 
-    axios.post(`${API_URL}/auth/login`, requestBody)
-      .then((response) => {
-      // Request to the server's endpoint `/auth/login` returns a response
-      // with the JWT string ->  response.data.authToken
-        console.log('JWT token', response.data.authToken );
-
-        storeToken(response.data.authToken)
-        // Verify the token by sending a request 
-        // to the server's JWT validation endpoint. 
-        authenticateUser(); 
-      
-        navigate('/dashboard');                                  
-      })
-      .catch((error) => {
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
-      })
-  };
   
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, requestBody);
+      // Request to the server's endpoint `/auth/login` returns a response
+      // with the JWT string -> response.data.authToken
+      console.log('JWT token', response.data.authToken);
+  
+      storeToken(response.data.authToken);
+      // Verify the token by sending a request 
+      // to the server's JWT validation endpoint.
+      await authenticateUser();
+      
+   
+    } catch (error) {
+      const errorDescription = error.response?.data?.message || 'An error occurred';
+      setErrorMessage(errorDescription);
+    }
+  };
+
+if(isLoggedIn){
+  navigate("/dashboard")
+}
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
     <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
