@@ -110,7 +110,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   // <p key={habitObj.habit._id}>
                   //   habit name: {habitObj.habit.title}
                   // </p>
-                  <li kkey={habitObj.habit._id} className="flex items-center my-2">
+                  <li key={habitObj.habit._id} className="flex items-center my-2">
                   <input
                     type="checkbox"
                     checked={habitStatus[habitObj._id] || false}
