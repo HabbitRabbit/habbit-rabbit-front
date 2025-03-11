@@ -43,11 +43,11 @@ function ListHabits({ deleteHabit, fetchHabits, habits }) {
 
   return (
     <div>
-      {!habits || habits.length ? (<div className="mt-6 text-gray-600 italic">
+      {!habits || habits.length === 0 ? (<div className="mt-6 text-gray-600 italic">
         <Link to="/create-habit" className="button bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
           Create New Habit
         </Link>
-        <p className="mt-7">No goals are created yet. Create one now!</p>
+        <p className="mt-7">No habits are created yet. Create one now!</p>
       </div>
       ) : (<ul className="mt-15 space-y-2">
         {habits.map((habit) => (
