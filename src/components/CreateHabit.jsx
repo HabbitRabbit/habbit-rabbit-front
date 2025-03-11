@@ -62,76 +62,78 @@ function CreateHabit() {
     };
 
     return (
-        <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
-            <h2 className="text-xl font-semibold mb-4">Create a New Habit</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-gray-700">
-                        Title:
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label className="block text-gray-700">
-                        Description:
-                        <input
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label className="block text-gray-700">Color:</label>
-                    <Select
-                        value={color ? colorOptions.find((option) => option.value === color) : null}
-                        onChange={(selectedOption) => setColor(selectedOption.value)}
-                        options={colorOptions}
-                        styles={colourStyles}
-                        className="mt-1"
-                    />
-                </div>
-                <div>
-                    <label className="block text-gray-700">
-                        Set Frequency:
-                        <select
-                            value={frequency}
-                            onChange={(e) => setFrequency(e.target.value)}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        >
-                            <option value="daily">Daily</option>
-                            <option value="two-days">Two days</option>
-                            <option value="three-days">Three days</option>
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label className="block text-gray-700">
-                        Reminder:
-                        <input
-                            type="date"
-                            value={reminder}
-                            onChange={(e) => setReminder(e.target.value)}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded"
-                        />
-                    </label>
-                </div>
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-teal-100 via-blue-100 to-teal-200 shadow-xl rounded-3xl border-4 border-green-200">
+          <h2 className="text-3xl font-bold mb-4 text-teal-800 font-alice">
+            Create a New Habit
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-gray-700">
+                Title:
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
+                />
+              </label>
+            </div>
+            <div>
+              <label className="block text-gray-700">
+                Description:
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
+                />
+              </label>
+            </div>
+            <div>
+              <label className="block text-gray-700">Color:</label>
+              <Select
+                value={color ? colorOptions.find((option) => option.value === color) : null}
+                onChange={(selectedOption) => setColor(selectedOption.value)}
+                options={colorOptions}
+                styles={colourStyles}
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700">
+                Set Frequency:
+                <select
+                  value={frequency}
+                  onChange={(e) => setFrequency(e.target.value)}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
                 >
-                    Create Habit
-                </button>
-            </form>
+                  <option value="daily">Daily</option>
+                  <option value="two-days">Two days</option>
+                  <option value="three-days">Three days</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <label className="block text-gray-700">
+                Reminder:
+                <input
+                  type="date"
+                  value={reminder}
+                  onChange={(e) => setReminder(e.target.value)}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
+                />
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="bg-teal-400 text-white py-2 px-4 rounded-full shadow-lg hover:bg-teal-500 transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Create Habit
+            </button>
+          </form>
         </div>
-    )
+      );
 }
 
 export default CreateHabit
