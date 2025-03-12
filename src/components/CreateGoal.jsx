@@ -143,6 +143,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
             Name:
             <input
               type="text"
+              placeholder="write a name..."
               value={name}
               onChange={(e) => setName(e.target.value)}
               required

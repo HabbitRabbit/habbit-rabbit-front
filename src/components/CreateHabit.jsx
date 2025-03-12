@@ -14,7 +14,11 @@ function CreateHabit() {
     const [color, setColor] = useState("#0000FF");
     const [frequency, setFrequency] = useState("daily");
     const [createdBy, setCreatedBy] = useState("");
-    const [reminder, setReminder] = useState("")
+    const [reminder, setReminder] = useState(() => {
+      const today = new Date();
+      today.setDate(today.getDate() + 14); // Add 14 days from today
+      return today.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+    });
 
     const navigate = useNavigate()
 
@@ -71,6 +75,7 @@ function CreateHabit() {
                 Title:
                 <input
                   type="text"
+                  placeholder="enter a title..."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
@@ -83,6 +88,7 @@ function CreateHabit() {
                 Description:
                 <input
                   type="text"
+                  placeholder="enter a description..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
