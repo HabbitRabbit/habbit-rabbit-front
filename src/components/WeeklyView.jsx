@@ -8,36 +8,42 @@ import "react-day-picker/dist/style.css";
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [habitStatus, setHabitStatus] = useState({});
-  const [localHabitStatus, setLocalHabitStatus] = useState({}); // Add a state to track changes locally
-  const [loading, setLoading] = useState(true); // Add loading state
-
+  const [localHabitStatus, setLocalHabitStatus] = useState({});
+  const [progressData, setProgressData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchGoals();
       await fetchHabits();
-      setLoading(false); // Set loading to false once data is fetched
+      // const { data } = await axios.get(`${API_URL}/api/progress`, {
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      //   },
+      // });
+      // setProgressData(data);
+      setLoading(false);
     };
     fetchData();
   }, []);
 
-  // Initialize habit status when goals and habits are available
-  useEffect(() => {
-    if (habits && goals) {
-      const initialStatus = {};
-      habits.forEach((habit) => {
-        initialStatus[habit._id] = habit.completedDates?.includes(selectedDate.toDateString()) || false; // default to checked state
-      });
-      setHabitStatus(initialStatus);
-      setLocalHabitStatus(initialStatus); // Also initialize localHabitStatus
-    }
-  }, [habits, goals, selectedDate]);
+  // useEffect(() => {
+  //   if (habits && goals) {
+  //     const initialStatus = {};
+  //     console.log(habits)
+  //     // habits.forEach((habit) => {
+  //     //   initialStatus[habit._id] = habit.completedDates?.includes(selectedDate.toDateString()) || false;
+  //     // });
+  //     setHabitStatus(initialStatus);
+  //     setLocalHabitStatus(initialStatus);
+      
+  //   }
+  // }, [habits, goals, selectedDate]);
 
   if (loading || goals === null || habits === null) {
     return <h2>Loading...</h2>;
   }
 
-  // Function to check if a date is within the current week (Monday to Sunday)
   const isDateInCurrentWeek = (dateToCheck) => {
     const today = new Date();
     const start = startOfWeek(today, { weekStartsOn: 1 });
@@ -49,24 +55,39 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     setSelectedDate(date);
   };
 
-  // Handle habit check update, but don't immediately update the API
-  const handleHabitChange = (habitId, isChecked) => {
-    setLocalHabitStatus((prevStatus) => ({
-      ...prevStatus,
-      [habitId]: isChecked, // Only update the local state here
-    }));
+
+  const handleHabitCheck = async (goalId, habitId) => {
+    try {
+      // /goals/:goalId
+  const update = await axios.patch(`${API_URL}/api/goals/checkHabit/${goalId}`, {habitId})
+ return
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
+  // const handleHabitChange = (habitId, isChecked) => {
+  //   setLocalHabitStatus((prevStatus) => ({
+  //     ...prevStatus,
+  //     [habitId]: isChecked,
+  //   }));
+  // };
+
+  const handleSubmit = async () => {
+    try {
+      await Promise.all(
+        Object.keys(localHabitStatus).map(async (habitId) => {
+          const isChecked = localHabitStatus[habitId];
+          await updateHabit(habitId, isChecked);
+        })
+      );
+      await fetchGoals();
+      await fetchHabits();
+    } catch (error) {
+      console.error("Error updating habits:", error);
+    }
   };
 
-  // Submit habits
-  const handleSubmit = () => {
-    // Update habits on the server
-    Object.keys(localHabitStatus).forEach((habitId) => {
-      const isChecked = localHabitStatus[habitId];
-      updateHabit(habitId, isChecked); // Update API only when the button is clicked
-    });
-  };
-
-  // Function to update habit status on the server (in ASYNC-AWAIT)
   const updateHabit = async (habitId, isChecked) => {
     try {
       const response = await axios.patch(
@@ -99,24 +120,28 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
       <div>
         <h3>Habits for {selectedDate.toLocaleDateString()}</h3>
-        {goals && goals.length && goals.map((goal) => (
+        {goals.map((goal) => (
           <div key={goal._id}>
-           <p>
+            <p>
               GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount}, Remaining: {goal.remainingAchievedCount})
             </p>
             <ul>
-              {goal.habits.map((habitObj) => (
-                habitObj.habit && (
-                  <li key={habitObj._id} className="flex items-center my-2">
-                    <input
-                      type="checkbox"
-                      checked={localHabitStatus[habitObj.habit._id] || false}
-                      onChange={() => handleHabitChange(habitObj.habit._id, !localHabitStatus[habitObj.habit._id])}
-                    />
-                    <span className="ml-2">habit name: {habitObj.habit.title}</span>
-                  </li>
-                )
-              ))}
+              {goal.habits.map((habitObj) => {
+                const progress = progressData.find((p) => p.habitId === habitObj.habit._id && p.goalId === goal._id);
+                return (
+                  habitObj.habit && (
+                    <li key={habitObj._id} className="flex items-center my-2">
+                      <input
+                        type="checkbox"
+                        // checked={localHabitStatus[habitObj.habit._id] || false}
+                        onChange={() => handleHabitCheck(goal._id, habitObj.habit._id)}
+                        // onChange={() => handleHabitChange(habitObj.habit._id, !localHabitStatus[habitObj.habit._id])}
+                      />
+                      <span className="ml-2">{habitObj.habit.title} - Completed: {progress?.achievedCount || 0}</span>
+                    </li>
+                  )
+                );
+              })}
             </ul>
           </div>
         ))}
