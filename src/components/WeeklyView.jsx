@@ -12,6 +12,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [progressData, setProgressData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [habitsToCheck, setHabitsToCheck] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       await fetchGoals();
@@ -36,7 +37,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   //     // });
   //     setHabitStatus(initialStatus);
   //     setLocalHabitStatus(initialStatus);
-      
+
   //   }
   // }, [habits, goals, selectedDate]);
 
@@ -55,17 +56,42 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     setSelectedDate(date);
   };
 
-
-  const handleHabitCheck = async (goalId, habitId) => {
+  const handleHabitCheck = async (goalId) => {
     try {
       // /goals/:goalId
-  const update = await axios.patch(`${API_URL}/api/goals/checkHabit/${goalId}`, {habitId})
- return
+
+      const goal = goals.find(curr => curr._id === goalId)
+
+
+      const updatedGoal = {...goal, habits:  goal.habits.map((habit) =>
+        habitsToCheck.includes(String(habit._id))
+       ? { ...habit, achievedCount: habit.achievedCount + 1 }
+       : habit
+   ) }
+
+
+
+       await axios.patch(
+        `${import.meta.env.VITE_API_URL}/api/goals/checkHabit/${goalId}`,
+        {goal:updatedGoal}
+      );
+      return;
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-  }
+  };
+
+  const handleHabitSelect = (e, habit) => {
+    
+    if (e.target.checked) {
+      setHabitsToCheck(prev => [...prev, habit]);
+    } else {
+      setHabitsToCheck((prev) => prev.filter((curr) => curr !== habit));
+    }
+  };
+
+
+  console.log(habitsToCheck);
   // const handleHabitChange = (habitId, isChecked) => {
   //   setLocalHabitStatus((prevStatus) => ({
   //     ...prevStatus,
@@ -115,7 +141,11 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
         mode="single"
         showOutsideDays={false}
         disabled={(date) => !isDateInCurrentWeek(date)}
-        footer={selectedDate ? `Selected: ${selectedDate.toLocaleDateString()}` : "Pick a day."}
+        footer={
+          selectedDate
+            ? `Selected: ${selectedDate.toLocaleDateString()}`
+            : "Pick a day."
+        }
       />
 
       <div>
@@ -123,26 +153,41 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
         {goals.map((goal) => (
           <div key={goal._id}>
             <p>
-              GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount}, Remaining: {goal.remainingAchievedCount})
+              GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount},
+              Remaining: {goal.remainingAchievedCount})
             </p>
             <ul>
               {goal.habits.map((habitObj) => {
-                const progress = progressData.find((p) => p.habitId === habitObj.habit._id && p.goalId === goal._id);
+                const progress = progressData.find(
+                  (p) =>
+                    p.habitId === habitObj.habit._id && p.goalId === goal._id
+                );
                 return (
                   habitObj.habit && (
                     <li key={habitObj._id} className="flex items-center my-2">
                       <input
                         type="checkbox"
                         // checked={localHabitStatus[habitObj.habit._id] || false}
-                        onChange={() => handleHabitCheck(goal._id, habitObj.habit._id)}
+                        onChange={(e) => handleHabitSelect(e, habitObj._id)}
                         // onChange={() => handleHabitChange(habitObj.habit._id, !localHabitStatus[habitObj.habit._id])}
                       />
-                      <span className="ml-2">{habitObj.habit.title} - Completed: {progress?.achievedCount || 0}</span>
+
+                      
+                      <span className="ml-2">
+                        {habitObj.habit.title} - Completed:{" "}
+                        {progress?.achievedCount || 0}
+                      </span>
                     </li>
                   )
                 );
               })}
             </ul>
+            <button
+                        className="border-2 border-amber-900 hover:bg-amber-600 transition-all ease-in-out 1s"
+                        onClick={() => handleHabitCheck(goal._id)}
+                      >
+                        complete todays habits
+                      </button>
           </div>
         ))}
 
