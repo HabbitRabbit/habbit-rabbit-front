@@ -38,8 +38,6 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
       {goal ? (
         <div className="bg-white p-4 rounded-md shadow-md">
           <h2 className="text-2xl font-semibold mb-4 text-pink-600">{goal.name}</h2>
-          <p><strong>Target Frequency:</strong> {goal.targetFrequency}</p>
-          <p><strong>Period:</strong> {goal.period}</p>
           <p><strong>Start Date:</strong> {new Date(goal.startDate).toLocaleDateString()}</p>
           <p><strong>End Date:</strong> {goal.endDate ? new Date(goal.endDate).toLocaleDateString() : "Ongoing"}</p>
           
@@ -49,7 +47,7 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
               {goal.habits.map((habitObj) => {
                 return (
                   <p key={habitObj.habit._id} className="bg-indigo-200 p-3 rounded-full text-center shadow-sm">
-                    {habitObj.habit.title}: Frequency: {habitObj.habit.frequency}
+                    {habitObj.habit.title}. <br /> Frequency: {habitObj.habit.frequency}
                   </p>
                 );
               })}
