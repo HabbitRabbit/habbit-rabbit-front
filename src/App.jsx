@@ -5,7 +5,7 @@ import axios from 'axios'
 import './index.css'
 
 import Navbar from './components/Navbar'
-import HomePage from './pages/Homepage'
+import HomePage from './pages/HomePage'
 import Dashboard from "./pages/Dashboard"
 import About from './pages/About'
 import NotFound from './pages/NotFound'
