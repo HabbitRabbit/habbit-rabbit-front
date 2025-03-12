@@ -10,8 +10,16 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
 
 
   const [name, setName] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(() => {
+    // Set the start date to today by default
+    const today = new Date().toISOString().split('T')[0];
+    return today;
+  });
+  const [endDate, setEndDate] = useState(() => {
+    const today = new Date();
+    today.setDate(today.getDate() + 30); // Add 30 days to today
+    return today.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+  });
 
   const [habits, setHabits] = useState([])
   const [selectedHabits, setSelectedHabits] = useState([]);
@@ -123,7 +131,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
     label: habit.title,
     value: habit._id,
   }));
-
+  
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 shadow-2xl rounded-3xl border-4 border-blue-300">
       <h2 className="text-3xl font-bold mb-4 text-purple-800 font-alice">
@@ -183,7 +191,8 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
         </div>
         <button
           type="submit"
-          className="bg-purple-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-purple-600 transition duration-300 ease-in-out transform hover:scale-105"
+          disabled={selectedHabits.length === 0} // Disable button if no habit is selected
+          className={`bg-purple-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-purple-600 transition duration-300 ease-in-out transform hover:scale-105 ${selectedHabits.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {goalId ? "Save Changes" : "Create Goal"}
         </button>
