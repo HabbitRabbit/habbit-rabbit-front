@@ -14,12 +14,13 @@ import { useParams } from "react-router-dom";
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [progressData, setProgressData] = useState([]);
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [habitsToCheck, setHabitsToCheck] = useState([]);
 
   const { goalId } = useParams();
+
+  const now = new Date();
 
   const fetchGoal = async () => {
     try {
@@ -128,7 +129,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
         `${import.meta.env.VITE_API_URL}/api/goals/checkHabit/${goalId}`,
         { goal: updatedGoal }
       );
-      const now = new Date();
+      
       // For each checked habit inside the goal, set local Storage with current date to TRUE
       goal.habits.map((habit) =>
       habitsToCheck.includes(String(habit._id))
@@ -152,6 +153,8 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   };
 
   const handleHabitSelect = (e, habit) => {
+    console.log("handleHabitSelect");
+    
     if (e.target.checked) {
       setHabitsToCheck((prev) => [...prev, habit]);
     } else {
@@ -201,27 +204,21 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
               </p>
               <ul>
                 {goal.habits.map((habitObj) => {
-                  const progress = progressData.find(
-                    (p) =>
-                      p.habitId === habitObj.habit._id && p.goalId === goal._id
-                  );
-                  // const canCheck = isHabitCheckEligible(
-                  //   habitObj.habit,
-                  //   goal.startDate,
-                  //   goal.endDate
-                  // );
+                  const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`
+
+                  const isChecked = localStorage.getItem(key) ? true : false
+
                   // PUNTO 2
                   return (
                     habitObj.habit && (
                       <li key={habitObj._id} className="flex items-center my-2">
                         <input
                           type="checkbox"
-                          // disabled={!canCheck}
+                          disabled={isChecked}
                           onChange={(e) => handleHabitSelect(e, habitObj._id)}
                         />
                         <span className="ml-2">
-                          {habitObj.habit.title} - Completed:{" "}
-                          {progress?.achievedCount || 0}
+                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
                         </span>
                       </li>
                     )

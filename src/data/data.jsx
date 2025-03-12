@@ -75,7 +75,7 @@ const checkHabitReminderAndNotify = (habits) => {
         const habitReminderDate = new Date(habit.reminder);
 
         // Log the dates for debugging
-        console.log(`Habit: ${habit.title}, Reminder Date: ${habitReminderDate.toDateString()}, Today: ${today.toDateString()}`);
+        //console.log(`Habit: ${habit.title}, Reminder Date: ${habitReminderDate.toDateString()}, Today: ${today.toDateString()}`);
 
         // Compare the date parts only (ignore time) and check if habit is unchecked (check: false)
         if (habitReminderDate.toDateString() === today.toDateString() && habit.check === false) {
