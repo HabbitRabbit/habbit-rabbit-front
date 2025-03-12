@@ -3,8 +3,10 @@ import axios from "axios";
 import CreateGoal from "../components/CreateGoal";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import 'react-toastify/dist/ReactToastify.css'
+import { checkHabitReminderAndNotify } from "../data/data";
 
-function Dashboard({ goals, fetchGoals, deleteGoal }) {
+function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
 
   const navigate = useNavigate();
 
@@ -15,6 +17,14 @@ function Dashboard({ goals, fetchGoals, deleteGoal }) {
 
   useEffect(() => {
     fetchGoals();
+    fetchHabits(); //add this line to chech the reminder date to show tostify
+  },  []);
+
+  useEffect(() => {
+    // If habits are fetched, call the reminder check function
+    if (habits && habits.length > 0) {
+      checkHabitReminderAndNotify(habits);
+    }
   }, []);
 
   return (
