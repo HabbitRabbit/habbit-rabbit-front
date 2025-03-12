@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './index.css'
 
@@ -16,10 +18,10 @@ import GoalDetail from './pages/GoalDetail'
 import CreateHabit from './components/CreateHabit'
 import HabitDetail from './pages/HabitDetail'
 import ListHabits from './components/ListHabits'
-import { L } from '../config/api'
 import EditHabit from './components/EditHabit'
 import EditGoal from './components/EditGoal'
 import IsPrivate from './components/IsPrivate'
+import { checkHabitReminderAndNotify } from './data/data'
 
 function App() {
 
@@ -39,7 +41,6 @@ const fetchHabits = async () => {
     console.log(error);
   }
 };
-
 
 // Delete habits
 const deleteHabit = async (habitId) => {
@@ -108,13 +109,13 @@ const fetchGoals = async () => {
         <Route path="/habits" element={<IsPrivate> <ListHabits deleteHabit={deleteHabit} fetchHabits={fetchHabits} habits={habits}/> </IsPrivate> } />
         <Route path="/habits/:habitId" element={<IsPrivate>  <HabitDetail deleteHabit = {deleteHabit} /> </IsPrivate> } />
         <Route path="/habits/edit/:habitId" element={<IsPrivate> <EditHabit/> </IsPrivate> } />
-        <Route path="/dashboard" element={<IsPrivate> <Dashboard goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal}/> </IsPrivate>} />
+        <Route path="/dashboard" element={<IsPrivate> <Dashboard goals={goals} fetchGoals={fetchGoals} deleteGoal={deleteGoal} habits={habits} fetchHabits={fetchHabits}/> </IsPrivate>} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<SignupPage />}/>
         <Route path="/login" element={<LoginPage />}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
-
+      <ToastContainer/>
     </div>
   )
 }

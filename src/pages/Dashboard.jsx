@@ -3,8 +3,10 @@ import axios from "axios";
 import CreateGoal from "../components/CreateGoal";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import 'react-toastify/dist/ReactToastify.css'
+import { checkHabitReminderAndNotify } from "../data/data";
 
-function Dashboard({ goals, fetchGoals, deleteGoal }) {
+function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
 
   const navigate = useNavigate();
 
@@ -15,7 +17,14 @@ function Dashboard({ goals, fetchGoals, deleteGoal }) {
 
   useEffect(() => {
     fetchGoals();
-  }, []);
+  },  []);
+
+  useEffect(() => {
+    // If habits are fetched, call the reminder check function
+    if (habits && habits.length > 0) {
+      checkHabitReminderAndNotify(habits);
+    }
+  }, [habits]);
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 shadow-2xl rounded-3xl border-4 border-blue-300">

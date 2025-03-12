@@ -1,6 +1,7 @@
 import chroma from "chroma-js";
-
 import makeAnimated from 'react-select/animated';
+import { toast } from 'react-toastify';
+
 
 // Define color options for react-select
 const colorOptions = [
@@ -64,4 +65,23 @@ const colourStyles = {
 
 const animatedComponents = makeAnimated();
 
-export { colorOptions, dot, colourStyles, animatedComponents }
+
+
+const checkHabitReminderAndNotify = (habits) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
+
+    habits.forEach(habit => {
+        const habitReminderDate = new Date(habit.reminder);
+
+        // Log the dates for debugging
+        console.log(`Habit: ${habit.title}, Reminder Date: ${habitReminderDate.toDateString()}, Today: ${today.toDateString()}`);
+
+        // Compare the date parts only (ignore time) and check if habit is unchecked (check: false)
+        if (habitReminderDate.toDateString() === today.toDateString() && habit.check === false) {
+            toast.info(`Reminder for habit: ${habit.title}`);
+        }
+    });
+};
+
+export { colorOptions, dot, colourStyles, animatedComponents, checkHabitReminderAndNotify }
