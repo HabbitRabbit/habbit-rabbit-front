@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 import { colorOptions, dot, colourStyles } from "../data/data";
@@ -40,7 +39,7 @@ function CreateHabit() {
                 reminder
             };
 
-            const response = await axios.post(`${API_URL}/api/habits`, newHabit, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/habits`, newHabit, {
                 headers: {
                     Authorization: `Bearer ${userToken}`,
                 },

@@ -4,7 +4,6 @@ import { endOfWeek, startOfWeek, isWithinInterval } from "date-fns";
 import { es } from "react-day-picker/locale";
 import axios from "axios";
 import "react-day-picker/dist/style.css";
-import { API_URL } from "../../config/api";
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -71,7 +70,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const updateHabit = async (habitId, isChecked) => {
     try {
       const response = await axios.patch(
-        `${API_URL}/api/habits/${habitId}/check`,
+        `${import.meta.env.VITE_API_URL}/api/habits/${habitId}/check`,
         { check: isChecked },
         {
           headers: {

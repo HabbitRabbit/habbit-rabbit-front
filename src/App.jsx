@@ -16,7 +16,7 @@ import GoalDetail from './pages/GoalDetail'
 import CreateHabit from './components/CreateHabit'
 import HabitDetail from './pages/HabitDetail'
 import ListHabits from './components/ListHabits'
-import { API_URL } from '../config/api'
+import { L } from '../config/api'
 import EditHabit from './components/EditHabit'
 import EditGoal from './components/EditGoal'
 import IsPrivate from './components/IsPrivate'
@@ -28,7 +28,7 @@ const [habits, setHabits] = useState(null);
 
 const fetchHabits = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/habits`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/habits`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
@@ -45,7 +45,7 @@ const fetchHabits = async () => {
 const deleteHabit = async (habitId) => {
 
   try {
-    const response = await axios.delete(`${API_URL}/api/habits/${habitId}`, {
+    const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/habits/${habitId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
@@ -64,7 +64,7 @@ const deleteHabit = async (habitId) => {
 const [goals, setGoals] = useState(null);
 const fetchGoals = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/goals`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
@@ -81,7 +81,7 @@ const fetchGoals = async () => {
   const deleteGoal = async (goalId) => {
 
     try {
-      const response = await axios.delete(`${API_URL}/api/goals/${goalId}`, {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },

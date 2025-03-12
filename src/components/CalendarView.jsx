@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { API_URL } from "../../config/api";
 import axios from "axios";
 import 'react-calendar/dist/Calendar.css';
 
@@ -41,7 +40,7 @@ function CalendarView({ habits, fetchHabits }) {
   // Handle habit check update
   const updateHabit = (habitId, result) => {
     axios.patch(
-      `${API_URL}/api/habits/${habitId}/check`,
+      `${import.meta.env.VITE_API_URL}/api/habits/${habitId}/check`,
       { check: result },
       {
         headers: {

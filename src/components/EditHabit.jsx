@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { API_URL } from "../../config/api"
 import { AuthContext } from "../context/auth.context";
 
 import { colorOptions, dot, colourStyles } from "../data/data";
@@ -25,7 +24,7 @@ function EditHabit() {
 
     useEffect(() => {
         if (habitId) {
-            axios.get(`${API_URL}/api/habits/${habitId}`, {
+            axios.get(`${import.meta.env.VITE_API_URL}/api/habits/${habitId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
                 },
@@ -61,7 +60,7 @@ function EditHabit() {
                 reminder
             };
 
-            const response = await axios.patch(`${API_URL}/api/habits/${habitId}`, newHabitDetails, {
+            const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/habits/${habitId}`, newHabitDetails, {
                 headers: {
                     Authorization: `Bearer ${userToken}`,
                 },

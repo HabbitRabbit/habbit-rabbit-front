@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { API_URL } from "../../config/api";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 import { animatedComponents } from "../data/data";
@@ -28,7 +27,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
   // }, []) 
 
   useEffect(() => {
-    axios.get(`${API_URL}/api/habits/`, {
+    axios.get(`${import.meta.env.VITE_API_URL}/api/habits/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
@@ -44,7 +43,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
   useEffect(() => {
     if (goalId) {
       // Fetch the existing goal data to pre-fill the form for editing
-      axios.get(`${API_URL}/api/goals/${goalId}`, {
+      axios.get(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
@@ -78,7 +77,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
         createdBy: userId,
       };
 
-      const response = await axios.post(`${API_URL}/api/goals`, newGoal, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/goals`, newGoal, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },

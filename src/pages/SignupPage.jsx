@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../../config/api";
 
 function SignupPage(props) {
   const [email, setEmail] = useState("");
@@ -28,7 +27,7 @@ function SignupPage(props) {
 
     const requestBody = { email, password, name };
 
-    axios.post(`${API_URL}/auth/signup`, requestBody)
+    axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, requestBody)
       .then((response) => {
         navigate('/login');
       })

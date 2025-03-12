@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../../config/api";
 import { Link } from "react-router-dom";
 
 function HabitDetail() {
@@ -13,7 +12,7 @@ function HabitDetail() {
   useEffect(() => {
     const fetchHabit = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/habits/${habitId}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/habits/${habitId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

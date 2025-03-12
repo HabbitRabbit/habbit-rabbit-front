@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../../config/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { animatedComponents } from "../data/data";
 import Select from "react-select";
@@ -18,7 +17,7 @@ function EditGoal() {
 
   //Fetch the habits
   useEffect(() => {
-    axios.get(`${API_URL}/api/habits/`, {
+    axios.get(`${import.meta.env.VITE_API_URL}/api/habits/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
@@ -33,7 +32,7 @@ function EditGoal() {
   useEffect(() => {
     if (goalId) {
       // Fetch the existing goal data to pre-fill the form for editing
-      axios.get(`${API_URL}/api/goals/${goalId}`, {
+      axios.get(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
@@ -60,7 +59,7 @@ function EditGoal() {
         habits: selectedHabits.map(id => ({ habit: id }))
       };
 
-      await axios.patch(`${API_URL}/api/goals/${goalId}`, updatedGoal, {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, updatedGoal, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../../config/api";
 import EditGoal from "../components/EditGoal";
 
 function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
@@ -13,7 +12,7 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
   useEffect(() => {
     const fetchGoal = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/goals/${goalId}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
