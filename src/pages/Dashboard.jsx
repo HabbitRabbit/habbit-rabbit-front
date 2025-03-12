@@ -17,7 +17,6 @@ function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
 
   useEffect(() => {
     fetchGoals();
-    fetchHabits(); //add this line to chech the reminder date to show tostify
   },  []);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
     if (habits && habits.length > 0) {
       checkHabitReminderAndNotify(habits);
     }
-  }, []);
+  }, [habits]);
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 shadow-2xl rounded-3xl border-4 border-blue-300">
