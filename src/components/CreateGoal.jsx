@@ -21,22 +21,22 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
   const { storeToken } = useContext(AuthContext);
 
 
-  const associateHabitWithGoal = async (habitId, goalId, userId) => {
-    try {
-      const response = await axios.post(`${API_URL}/api/progress`, {
-        habitId,
-        goalId,
-        userId,
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
-      console.log("Progress entry created:", response.data);
-    } catch (error) {
-      console.error("Error creating progress entry:", error);
-    }
-  };
+  // const associateHabitWithGoal = async (habitId, goalId, userId) => {
+  //   try {
+  //     const response = await axios.post(`${API_URL}/api/progress`, {
+  //       habitId,
+  //       goalId,
+  //       userId,
+  //     }, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+  //       },
+  //     });
+  //     console.log("Progress entry created:", response.data);
+  //   } catch (error) {
+  //     console.error("Error creating progress entry:", error);
+  //   }
+  // };
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/api/habits/`, {
@@ -99,10 +99,10 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
       console.log("Goal created successfully:", response.data);
       const createdGoal = response.data;
 
-    // Create progress entries for each habit associated with the new goal
-    await Promise.all(selectedHabits.map((habitId) => 
-      associateHabitWithGoal(habitId, createdGoal._id, userId)
-    ));
+    // // Create progress entries for each habit associated with the new goal
+    // await Promise.all(selectedHabits.map((habitId) => 
+    //   associateHabitWithGoal(habitId, createdGoal._id, userId)
+    // ));
 
     console.log("Goal created successfully:", createdGoal);
 
