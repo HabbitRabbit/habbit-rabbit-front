@@ -1,45 +1,57 @@
 import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
-import { endOfWeek, startOfWeek, isWithinInterval } from "date-fns";
+import {
+  endOfWeek,
+  startOfWeek,
+  isWithinInterval,
+  addDays,
+  differenceInDays,
+} from "date-fns";
 import { es } from "react-day-picker/locale";
 import axios from "axios";
 import "react-day-picker/dist/style.css";
+import { useParams } from "react-router-dom";
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [habitStatus, setHabitStatus] = useState({});
-  const [localHabitStatus, setLocalHabitStatus] = useState({});
   const [progressData, setProgressData] = useState([]);
+  const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [habitsToCheck, setHabitsToCheck] = useState([]);
+
+  const { goalId } = useParams();
+
+  const fetchGoal = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/goals/${goalId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      setGoal(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError("Error fetching goal details");
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchGoals();
       await fetchHabits();
-      // const { data } = await axios.get(`${API_URL}/api/progress`, {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      //   },
-      // });
-      // setProgressData(data);
+
       setLoading(false);
     };
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   if (habits && goals) {
-  //     const initialStatus = {};
-  //     console.log(habits)
-  //     // habits.forEach((habit) => {
-  //     //   initialStatus[habit._id] = habit.completedDates?.includes(selectedDate.toDateString()) || false;
-  //     // });
-  //     setHabitStatus(initialStatus);
-  //     setLocalHabitStatus(initialStatus);
-
-  //   }
-  // }, [habits, goals, selectedDate]);
+  useEffect(() => {
+    fetchGoal();
+  }, [goalId]);
 
   if (loading || goals === null || habits === null) {
     return <h2>Loading...</h2>;
@@ -52,28 +64,53 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     return isWithinInterval(dateToCheck, { start, end });
   };
 
+  // const isHabitCheckEligible = (habit, startDate, endDate) => {
+  //   const frequencyDays =
+  //     {
+  //       "daily": 1,
+  //       "two-days": 2,
+  //       "three-days": 3,
+  //     }[habit.frequency] || 1;
+
+  //   let currentDate = new Date(startDate);
+  //   while (currentDate <= endDate) {
+  //     if (currentDate.toDateString() === selectedDate.toDateString()) {
+  //       return true;
+  //     }
+  //     currentDate = addDays(currentDate, frequencyDays);
+  //   }
+  //   return false;
+  // };
+
   const handleDayClick = (date) => {
     setSelectedDate(date);
   };
 
   const handleHabitCheck = async (goalId) => {
     try {
-      // /goals/:goalId
+      const goal = goals.find((curr) => curr._id === goalId);
 
-      const goal = goals.find(curr => curr._id === goalId)
+      const updatedGoal = {
+        ...goal,
+        habits: goal.habits.map((habit) =>
+          habitsToCheck.includes(String(habit._id))
+            ? { ...habit, achievedCount: habit.achievedCount + 1 }
+            : habit
+        ),
+      };
 
+      // goals.requiredAchievedCount (días que hay que hacer check)
+      // remainingAchievedCount (checks que quedan por hacer || remaining days) 
+      // 
+      // if achievedCount < remainingAchievedCount => podemos hacer check
+      // else (check disabled)
+      //  startDate 10/3 until 12/3 => 2 days (stored in: amount)
+      //  if achievedCount < amount (doSomething)
+      //  else (check disable)
 
-      const updatedGoal = {...goal, habits:  goal.habits.map((habit) =>
-        habitsToCheck.includes(String(habit._id))
-       ? { ...habit, achievedCount: habit.achievedCount + 1 }
-       : habit
-   ) }
-
-
-
-       await axios.patch(
+      await axios.patch(
         `${import.meta.env.VITE_API_URL}/api/goals/checkHabit/${goalId}`,
-        {goal:updatedGoal}
+        { goal: updatedGoal }
       );
       return;
     } catch (error) {
@@ -82,54 +119,25 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   };
 
   const handleHabitSelect = (e, habit) => {
-    
     if (e.target.checked) {
-      setHabitsToCheck(prev => [...prev, habit]);
+      setHabitsToCheck((prev) => [...prev, habit]);
     } else {
       setHabitsToCheck((prev) => prev.filter((curr) => curr !== habit));
     }
   };
 
+  // const allHabitsCompleted = goals
+  //   .find((goal) => goal._id === goalId)
+  //   ?.habits.every((habitObj) => {
+  //     const canCheck = isHabitCheckEligible(
+  //       habitObj.habit,
+  //       goal.startDate,
+  //       goal.endDate
+  //     );
+  //     return !canCheck || habitsToCheck.includes(String(habitObj._id));
+  //   });
 
-  console.log(habitsToCheck);
-  // const handleHabitChange = (habitId, isChecked) => {
-  //   setLocalHabitStatus((prevStatus) => ({
-  //     ...prevStatus,
-  //     [habitId]: isChecked,
-  //   }));
-  // };
 
-  const handleSubmit = async () => {
-    try {
-      await Promise.all(
-        Object.keys(localHabitStatus).map(async (habitId) => {
-          const isChecked = localHabitStatus[habitId];
-          await updateHabit(habitId, isChecked);
-        })
-      );
-      await fetchGoals();
-      await fetchHabits();
-    } catch (error) {
-      console.error("Error updating habits:", error);
-    }
-  };
-
-  const updateHabit = async (habitId, isChecked) => {
-    try {
-      const response = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/api/habits/${habitId}/check`,
-        { check: isChecked },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
-      );
-      console.log("Habit check updated:", response.data);
-    } catch (err) {
-      console.error("Error updating habit check:", err);
-    }
-  };
 
   return (
     <div>
@@ -150,57 +158,59 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
       <div>
         <h3>Habits for {selectedDate.toLocaleDateString()}</h3>
-        {goals.map((goal) => (
-          <div key={goal._id}>
-            <p>
-              GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount},
-              Remaining: {goal.remainingAchievedCount})
-            </p>
-            <ul>
-              {goal.habits.map((habitObj) => {
-                const progress = progressData.find(
-                  (p) =>
-                    p.habitId === habitObj.habit._id && p.goalId === goal._id
-                );
-                return (
-                  habitObj.habit && (
-                    <li key={habitObj._id} className="flex items-center my-2">
-                      <input
-                        type="checkbox"
-                        // checked={localHabitStatus[habitObj.habit._id] || false}
-                        onChange={(e) => handleHabitSelect(e, habitObj._id)}
-                        // onChange={() => handleHabitChange(habitObj.habit._id, !localHabitStatus[habitObj.habit._id])}
-                      />
-
-                      
-                      <span className="ml-2">
-                        {habitObj.habit.title} - Completed:{" "}
-                        {progress?.achievedCount || 0}
-                      </span>
-                    </li>
-                  )
-                );
-              })}
-            </ul>
-            <button
-                        className="border-2 border-amber-900 hover:bg-amber-600 transition-all ease-in-out 1s"
-                        onClick={() => handleHabitCheck(goal._id)}
-                      >
-                        complete todays habits
-                      </button>
-          </div>
-        ))}
-
-        {selectedDate.toDateString() === new Date().toDateString() && (
-          <div className="text-center mt-4">
-            <button
-              onClick={handleSubmit}
-              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-            >
-              Submit Today's Habits
-            </button>
-          </div>
-        )}
+        {goals
+          .filter((goal) => goal._id === goalId)
+          .map((goal) => (
+            <div key={goal._id}>
+              <p>
+                GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount},
+                Remaining Checks: {goal.remainingAchievedCount})
+              </p>
+              <ul>
+                {goal.habits.map((habitObj) => {
+                  const progress = progressData.find(
+                    (p) =>
+                      p.habitId === habitObj.habit._id && p.goalId === goal._id
+                  );
+                  // const canCheck = isHabitCheckEligible(
+                  //   habitObj.habit,
+                  //   goal.startDate,
+                  //   goal.endDate
+                  // );
+                  return (
+                    habitObj.habit && (
+                      <li key={habitObj._id} className="flex items-center my-2">
+                        <input
+                          type="checkbox"
+                          // disabled={!canCheck}
+                          onChange={(e) => handleHabitSelect(e, habitObj._id)}
+                        />
+                        <span className="ml-2">
+                          {habitObj.habit.title} - Completed:{" "}
+                          {progress?.achievedCount || 0}
+                        </span>
+                      </li>
+                    )
+                  );
+                })}
+              </ul>
+              {/* {allHabitsCompleted && (
+                <div className="text-center mt-4">
+                  <h3 className="text-green-600 font-bold">
+                    You have completed all your habits for today!
+                  </h3>
+                </div>
+              )} */}
+              <div className="text-center mt-4">
+                <button
+                  className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                  onClick={() => handleHabitCheck(goal._id)}
+                >
+                  Complete Today's Habits
+                </button>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import EditGoal from "../components/EditGoal";
+import WeeklyView from "../components/WeeklyView";
 
 function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
   const { goalId } = useParams();
@@ -9,26 +10,26 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchGoal = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        });
-        setGoal(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError("Error fetching goal details");
-        setLoading(false);
-      }
-    };
+  const fetchGoal = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals/${goalId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      setGoal(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError("Error fetching goal details");
+      setLoading(false);
+    }
+  };
 
-   
+
+  useEffect(() => {
     fetchGoal();
   }, [goalId]);
- console.log(goal)
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -57,6 +58,9 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
           <Link to={`/goals/edit/${goalId}`} className="block mt-6 text-center text-blue-600 hover:text-blue-800">
             Edit Goal
           </Link>
+          <div>
+          <WeeklyView goals={goals} fetchGoals={fetchGoals} habits={habits} fetchHabits={fetchHabits}/>
+            </div>
         </div>
       ) : (
         <div>Goal not found</div>
