@@ -68,10 +68,6 @@ const animatedComponents = makeAnimated();
 
 
 const checkHabitReminderAndNotify = (habits) => {
-    console.log("_______________");
-    
-    console.log(habits);
-    
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
 
