@@ -33,19 +33,22 @@ function HabitDetail() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded">
-      <h1 className="text-2xl font-bold mb-4">Habit Details</h1>
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-lg">
+      <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">Habit Details</h1>
       {habit ? (
-        <div>
-          <h2 className="text-xl font-semibold mb-2">{habit.title}</h2>
-          <p><strong>Description:</strong> {habit.description}</p>
-          <p><strong>Frequency:</strong> {habit.frequency}</p>
+        <div className="bg-indigo-50 p-4 rounded-lg">
+          <h2 className="text-2xl font-semibold mb-4 text-indigo-700">{habit.title}</h2>
+          <p className="mb-2"><strong>Description:</strong> {habit.description}</p>
+          <p className="mb-6"><strong>Frequency:</strong> {habit.frequency}</p>
         </div>
       ) : (
-        <div>Goal not found</div>
+        <div className="text-red-500 text-center">Habit not found</div>
       )}
-      <Link to={`/habits`} className="text-blue-600 hover:underline">
-      Back to Habits Page</Link>
+      <div className="mt-6 text-center">
+        <Link to={`/habits`} className="text-blue-600 hover:text-blue-800 transition duration-300">
+          Back to Habits Page
+        </Link>
+      </div>
     </div>
   );
 }
