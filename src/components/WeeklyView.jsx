@@ -73,7 +73,10 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   }, [goalId]);
 
   if (loading || goals === null || habits === null) {
-    return <Loader />;
+    return (
+    <div className="flex items-center justify-center min-h-screen">
+      <Loader />
+      </div>)
   }
 
   const isDateInCurrentWeek = (dateToCheck) => {
@@ -183,10 +186,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
               <ul className="list-disc pl-5">
                 {goal.habits.map((habitObj) => {
                   const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`;
-
                   const isChecked = localStorage.getItem(key) ? true : false;
-                  
-                  const color = goal.color
 
                   //Logic for the progress bar
                   const totalAchievedCount = goal.habits.reduce((sum, habitObj) => {
@@ -202,7 +202,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   amount = (totalAchievedCount / totalRequiredCount) * 100
                   //console.log("%%%" + amount);
 
-
+                  const color = goal.color
 
 
                   return (
@@ -233,7 +233,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                     backgroundColor: '#e0e0e0', // Light background for the bar
                     width: '80%', // Set a width to ensure proper size
                     '& .MuiLinearProgress-bar': {
-                      backgroundColor: {color}, // Color chosen from Goal
+                      backgroundColor: color, // Color chosen from Goal
                       borderRadius: '10px', // Rounded corners for the bar
                     },
                   }}
