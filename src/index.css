@@ -8,19 +8,17 @@ body {
   }
 
   button {
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
+    cursor: url('./assets/carrot.cur'), auto;
   }
 
   a {
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
+    cursor: url('./assets/carrot.cur'), auto;
   }
 
   img {
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
-
+    cursor: url('./assets/carrot.cur'), auto;
   }
 
   input {
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
-
+    cursor: url('./assets/carrot.cur'), auto;
   }
