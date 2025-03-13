@@ -125,7 +125,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           )
           : habit
       );
-
+      fetchGoals();
       return;
     } catch (error) {
       console.log(error);
