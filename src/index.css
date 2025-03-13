@@ -6,3 +6,21 @@ body {
     font-family: 'Sour Gummy', Sans-Serif;
     font-size: 17px;
   }
+
+  button {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
+  }
+
+  a {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
+  }
+
+  img {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
+
+  }
+
+  input {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=97468'), auto;
+
+  }
