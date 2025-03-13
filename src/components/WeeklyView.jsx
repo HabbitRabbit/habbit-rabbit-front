@@ -24,7 +24,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [width, setWidth] = useState(window.innerWidth);
 
 
-  useEffect(() => {
+  useEffect(() => { //set the size of screen in a variable
 
     const handleResize = () => setWidth(window.innerWidth);
 
