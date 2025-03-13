@@ -114,7 +114,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           (
             habit // ETIQUETA PUNTO 4
           ) =>
-            /*(*/ habitsToCheck.includes(String(habit._id)) //&& LOCAL STORAGE NOT EXIST)
+            /*(*/ habitsToCheck.includes(String(habit._id)) && !localStorage.getItem(`${goalId}-${habit._id}-${now}`) //&& LOCAL STORAGE NOT EXIST)
               ? { ...habit, achievedCount: habit.achievedCount + 1 }
               : habit
         ),
@@ -144,7 +144,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       // Sino, no marcarlo
       // Añadir estilo "gris" "tachado" al goal cuando esté disabled -> done
       // ++ Cuando hagas submit, añadir un mensajito de "Sucess"
-      // 3. Si todos los habits tienen local storage a true, poner el boton a disabled
+      // [OK] 3. Si todos los habits tienen local storage a true, poner el boton a disabled
       // 4. En el punto ETIQUETA PUNTO 4, solo ejecutar el codigo de habit.achievedCount + 1 si el getlocal storage es false o no existe para el habit
       return;
     } catch (error) {
