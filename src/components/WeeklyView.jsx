@@ -68,7 +68,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   }, [goalId]);
 
   if (loading || goals === null || habits === null) {
-    return <h2>Loading...</h2>;
+    return <Loader />;
   }
 
   const isDateInCurrentWeek = (dateToCheck) => {

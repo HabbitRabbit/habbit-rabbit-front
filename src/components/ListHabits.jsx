@@ -19,7 +19,7 @@ function ListHabits({ deleteHabit, fetchHabits, habits }) {
   // Loading items
   if (habits === null) {
     return (
-      <h2 className="text-center mt-20 text-xl text-teal-700 font-bold">Loading...</h2>
+      <Loader />
     );
   }
   

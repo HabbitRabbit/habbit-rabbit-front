@@ -9,7 +9,7 @@ function IsPrivate( { children } ) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 
   // If the authentication is still loading 
-  if (isLoading) return <p>Loading ...</p>;
+  if (isLoading) return <Loader />;
 
   if (!isLoggedIn) {
   // If the user is not logged in 

@@ -29,7 +29,7 @@ function GoalDetail({ deleteGoal, goals, fetchGoals, fetchHabits, habits }) {
     fetchGoal();
   }, [goalId]);
 
-  if (loading) return <div className="text-center mt-20 text-xl">Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="text-center mt-20 text-red-600">{error}</div>;
 
   return (

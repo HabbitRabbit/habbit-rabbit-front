@@ -28,7 +28,7 @@ function HabitDetail() {
     fetchHabit();
   }, [habitId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>{error}</div>;
 
   return (
