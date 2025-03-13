@@ -21,7 +21,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
     today.setDate(today.getDate() + 30); // Add 30 days to today
     return today.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
   });
-  const [color, setColor] = useState("#0000FF");
+  const [color, setColor] = useState("#A1C6EA");
 
   const [habits, setHabits] = useState([])
   const [selectedHabits, setSelectedHabits] = useState([]);
