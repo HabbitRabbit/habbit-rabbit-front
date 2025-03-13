@@ -152,6 +152,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
   let amount = 0;
 
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h3 className="text-2xl font-bold text-blue-800 mb-4 mt-4 text-center">Current Week</h3>
@@ -202,9 +203,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   amount = (totalAchievedCount / totalRequiredCount) * 100
                   //console.log("%%%" + amount);
 
-                  const color = goal.color
-
-
                   return (
                     habitObj.habit && (
                       <li key={habitObj._id} className="flex items-center my-2">
@@ -222,18 +220,19 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   );
                 })}
               </ul>
-              <p>Progress goal: </p>
-              <Box sx={{ width: '100%', maxWidth: '500px', display: 'flex', alignItems: 'center' }}>
+              <p className="mt-6 mb-3">Progress... </p>
+              <div className="flex justify-center mb-6">
+              <Box sx={{ width: '100%', maxWidth: '1000px', display: 'flex', alignItems: 'center' }}>
                 <LinearProgress
                   variant="determinate"
                   value={Math.min(amount, 100)}  // Ensure the value does not exceed 100
                   sx={{
-                    height: '16px', // Custom height
+                    height: '20px', // Custom height
                     borderRadius: '10px', // Rounded corners
                     backgroundColor: '#e0e0e0', // Light background for the bar
                     width: '80%', // Set a width to ensure proper size
                     '& .MuiLinearProgress-bar': {
-                      backgroundColor: color, // Color chosen from Goal
+                      backgroundColor: goal.color, // Color chosen from Goal
                       borderRadius: '10px', // Rounded corners for the bar
                     },
                   }}
@@ -250,6 +249,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   🎉 🐰 🎉
                   </p>
                 )}
+                </div>
               {allHabitsCompleted ? (
                 <div className="text-center mt-4">
                   <h3 className="text-green-600 font-bold">
