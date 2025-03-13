@@ -21,7 +21,7 @@ function About() {
       <div className="p-1 rounded-lg w-full md:w-3/5">
         <div className="bg-white shadow-xl rounded-3xl p-8 border-4 border-purple-200">
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold mb-8 text-purple-800 font-alice">About Page</h2>
+            <h2 className="text-4xl font-bold mb-8 text-purple-800 font-alice">About Us</h2>
             <p className="text-lg mb-4">
               HabbitRabbit is a way to track your habit goals and to make sure that you stick to them. <br />
             </p>

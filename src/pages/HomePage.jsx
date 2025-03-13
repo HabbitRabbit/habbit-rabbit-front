@@ -14,7 +14,7 @@ function HomePage() {
       <h1 className="text-5xl font-bold text-purple-900 mb-7 drop-shadow-md">Welcome to Habbit Rabbit</h1>
       <Link
         to="/login"
-        className="bg-white text-purple-800 py-3 px-8 rounded-full shadow-lg hover:bg-purple-100 transition duration-300 ease-in-out transform hover:scale-105"
+        className="bg-white text-purple-800 py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105"
       >
         Go to Login
       </Link>
