@@ -12,6 +12,8 @@ import axios from "axios";
 import "react-day-picker/dist/style.css";
 import { useParams } from "react-router-dom";
 import { notifySucces } from "../data/data";
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -20,7 +22,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [habitsToCheck, setHabitsToCheck] = useState([]);
 
   const { goalId } = useParams();
-  
+
   const [width, setWidth] = useState(window.innerWidth);
 
 
@@ -87,17 +89,17 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     try {
 
       notifySucces(width) // Alert with toastify to notify sumbit button
-      
+
       const goal = goals.find((curr) => curr._id === goalId);
 
       const updatedGoal = {
         ...goal,
-        
+
         habits: goal.habits.map(
           (
             habit
           ) =>
-             habitsToCheck.includes(String(habit._id)) && !localStorage.getItem(`${goalId}-${habit._id}-${now}`) 
+            habitsToCheck.includes(String(habit._id)) && !localStorage.getItem(`${goalId}-${habit._id}-${now}`)
               ? { ...habit, achievedCount: habit.achievedCount + 1 }
               : habit
         ),
@@ -112,9 +114,9 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       goal.habits.map((habit) =>
         habitsToCheck.includes(String(habit._id))
           ? localStorage.setItem(
-              `${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`,
-              true
-            )
+            `${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`,
+            true
+          )
           : habit
       );
 
@@ -137,16 +139,16 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const allHabitsCompleted = goals
     .find((goal) => goal._id === goalId)
     ?.habits.every((habitObj) => {
-      const key = `${goalId}-${habitObj._id}-${
-        now.toLocaleString().split(",")[0]
-      }`;
+      const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]
+        }`;
       return localStorage.getItem(key) === "true";
     });
 
-    return (
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h3 className="text-2xl font-bold text-blue-800 mb-4 mt-4 text-center">Current Week</h3>
-        <div className="flex justify-center mb-6">
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h3 className="text-2xl font-bold text-blue-800 mb-4 mt-4 text-center">Current Week</h3>
+      <div className="flex justify-center mb-6">
         <DayPicker
           locale={es}
           selected={selectedDate}
@@ -161,63 +163,79 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           }
           className="mb-6 justify-center"
         />
-    </div>
-        <div>
-          <h3 className="text-xl font-semibold text-blue-700 mb-3">
-            Habits for {selectedDate.toLocaleDateString()}
-          </h3>
-          {goals
-            .filter((goal) => goal._id === goalId)
-            .map((goal) => (
-              <div key={goal._id} className="mb-6">
-                <p className="text-lg mb-2">
-                  {goal.name} (Required Checks: {goal.requiredAchievedCount},
-                  Remaining Checks: {goal.remainingAchievedCount})
-                </p>
-                <ul className="list-disc pl-5">
-                  {goal.habits.map((habitObj) => {
-                    const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`;
-    
-                    const isChecked = localStorage.getItem(key) ? true : false;
-    
-                    return (
-                      habitObj.habit && (
-                        <li key={habitObj._id} className="flex items-center my-2">
-                          <input
-                            type="checkbox"
-                            disabled={isChecked}
-                            onChange={(e) => handleHabitSelect(e, habitObj._id)}
-                            className="mr-2"
-                          />
-                          <span className={`ml-2 ${isChecked ? 'line-through text-gray-500' : ''}`}>
-                            {habitObj.habit.title} - Completed: {habitObj.achievedCount}
-                          </span>
-                        </li>
-                      )
-                    );
-                  })}
-                </ul>
-                {allHabitsCompleted ? (
-                  <div className="text-center mt-4">
-                    <h3 className="text-green-600 font-bold">
-                      You have completed all your habits for today!
-                    </h3>
-                  </div>
-                ) : (
-                  <div className="text-center mt-4">
-                    <button
-                      className="bg-blue-600 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
-                      onClick={() => handleHabitCheck(goal._id)}
-                    >
-                      Complete Today's Habits
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-        </div>
       </div>
-    );
+
+      <div>
+        <h3 className="text-xl font-semibold text-blue-700 mb-3">
+          Habits for {selectedDate.toLocaleDateString()}
+        </h3>
+        {goals
+          .filter((goal) => goal._id === goalId)
+          .map((goal) => (
+            <div key={goal._id} className="mb-6">
+              <p className="text-lg mb-2">
+                {goal.name} (Required Checks: {goal.requiredAchievedCount},
+                Remaining Checks: {goal.remainingAchievedCount})
+              </p>
+              <Box sx={{ width: '80%', maxWidth: '500px' }}>
+                  <LinearProgress
+                    variant="determinate"
+                    value={50}
+                    sx={{
+                      height: '12px', // Custom height
+                      borderRadius: '8px', // Rounded corners
+                      backgroundColor: '#e0e0e0', // Light background for the bar
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: '#1976d2', // Blue color for the progress bar
+                        borderRadius: '8px', // Rounded corners for the bar
+                      },
+                    }}
+                  />
+                </Box>
+              <ul className="list-disc pl-5">
+                {goal.habits.map((habitObj) => {
+                  const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`;
+
+                  const isChecked = localStorage.getItem(key) ? true : false;
+
+                  return (
+                    habitObj.habit && (
+                      <li key={habitObj._id} className="flex items-center my-2">
+                        <input
+                          type="checkbox"
+                          disabled={isChecked}
+                          onChange={(e) => handleHabitSelect(e, habitObj._id)}
+                          className="mr-2"
+                        />
+                        <span className={`ml-2 ${isChecked ? 'line-through text-gray-500' : ''}`}>
+                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
+                        </span>
+                      </li>
+                    )
+                  );
+                })}
+              </ul>
+              {allHabitsCompleted ? (
+                <div className="text-center mt-4">
+                  <h3 className="text-green-600 font-bold">
+                    You have completed all your habits for today!
+                  </h3>
+                </div>
+              ) : (
+                <div className="text-center mt-4">
+                  <button
+                    className="bg-blue-600 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
+                    onClick={() => handleHabitCheck(goal._id)}
+                  >
+                    Complete Today's Habits
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+      </div>
+    </div>
+  );
 };
 
 export default WeeklyView;
