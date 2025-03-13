@@ -1,6 +1,7 @@
 import chroma from "chroma-js";
 import makeAnimated from 'react-select/animated';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // Define color options for react-select
@@ -84,4 +85,18 @@ const checkHabitReminderAndNotify = (habits) => {
     });
 };
 
-export { colorOptions, dot, colourStyles, animatedComponents, checkHabitReminderAndNotify }
+const notifySucces = () => {
+    toast.success('The information has been sent!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+    });
+}
+
+export { colorOptions, dot, colourStyles, animatedComponents, checkHabitReminderAndNotify, notifySucces }
