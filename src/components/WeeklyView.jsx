@@ -185,7 +185,8 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`;
 
                   const isChecked = localStorage.getItem(key) ? true : false;
-
+                  
+                  const color = goal.color
 
                   //Logic for the progress bar
                   const totalAchievedCount = goal.habits.reduce((sum, habitObj) => {
@@ -227,13 +228,13 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   variant="determinate"
                   value={Math.min(amount, 100)}  // Ensure the value does not exceed 100
                   sx={{
-                    height: '12px', // Custom height
-                    borderRadius: '8px', // Rounded corners
+                    height: '16px', // Custom height
+                    borderRadius: '10px', // Rounded corners
                     backgroundColor: '#e0e0e0', // Light background for the bar
                     width: '80%', // Set a width to ensure proper size
                     '& .MuiLinearProgress-bar': {
-                      backgroundColor: '#1976d2', // Blue color for the progress bar
-                      borderRadius: '8px', // Rounded corners for the bar
+                      backgroundColor: {color}, // Color chosen from Goal
+                      borderRadius: '10px', // Rounded corners for the bar
                     },
                   }}
                 />
