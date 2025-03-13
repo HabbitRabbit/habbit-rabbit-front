@@ -86,7 +86,7 @@ const checkHabitReminderAndNotify = (habits) => {
 };
 
 const notifySucces = (isLargeScreen) => {
-    toast.success('The information has been sent!', {
+    toast.success('Well Done!', {
       position: isLargeScreen > 1240 ? "top-center" : "bottom-center", // Change position based on screen size
       autoClose: 5000,
       hideProgressBar: false,

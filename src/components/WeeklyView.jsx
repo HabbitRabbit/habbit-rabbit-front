@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
+import GrowHabbit from "./GrowHabbit";
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -131,7 +132,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       console.log(error);
     }
   };
-
   const handleHabitSelect = (e, habit) => {
     console.log("handleHabitSelect");
 
@@ -222,7 +222,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
               </ul>
               <p className="mt-6 mb-3">Progress... </p>
               <div className="flex justify-center mb-6">
-              <Box sx={{ width: '100%', maxWidth: '1000px', display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ width: '80%', maxWidth: '1000px', display: 'flex', alignItems: 'center' }}>
                 <LinearProgress
                   variant="determinate"
                   value={Math.min(amount, 100)}  // Ensure the value does not exceed 100
@@ -230,7 +230,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                     height: '20px', // Custom height
                     borderRadius: '10px', // Rounded corners
                     backgroundColor: '#e0e0e0', // Light background for the bar
-                    width: '80%', // Set a width to ensure proper size
+                    width: '100%', // Set a width to ensure proper size
                     '& .MuiLinearProgress-bar': {
                       backgroundColor: goal.color, // Color chosen from Goal
                       borderRadius: '10px', // Rounded corners for the bar
@@ -250,6 +250,11 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   </p>
                 )}
                 </div>
+
+                <div className="mt-2 flex justify-center">
+                <GrowHabbit amount={amount}/>
+                </div>
+              
               {allHabitsCompleted ? (
                 <div className="text-center mt-4">
                   <h3 className="text-green-600 font-bold">
