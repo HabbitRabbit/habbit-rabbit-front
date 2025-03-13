@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import 'react-calendar/dist/Calendar.css';
+import Loader from "./Loader";
 
 function CalendarView({ habits, fetchHabits }) {
   const [date, setDate] = useState(new Date());
@@ -14,7 +15,7 @@ function CalendarView({ habits, fetchHabits }) {
   
   // Loading items 
   if (habits === null) {
-    return <h2>Loading...</h2>;
+    return <Loader />;
   }
   // Get start of the week (Sunday as the start of the week)
   const startOfWeek = (date) => {

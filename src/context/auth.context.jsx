@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Loader from "../components/Loader";
 
 const AuthContext = React.createContext();
 

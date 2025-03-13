@@ -2,6 +2,8 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import Loader from "./Loader";
+
 
 function ListHabits({ deleteHabit, fetchHabits, habits }) {
 
@@ -19,7 +21,7 @@ function ListHabits({ deleteHabit, fetchHabits, habits }) {
   // Loading items
   if (habits === null) {
     return (
-      <h2 className="text-center mt-20 text-xl text-teal-700 font-bold">Loading...</h2>
+      <Loader />
     );
   }
   

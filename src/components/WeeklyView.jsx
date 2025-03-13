@@ -12,6 +12,8 @@ import axios from "axios";
 import "react-day-picker/dist/style.css";
 import { useParams } from "react-router-dom";
 import { notifySucces } from "../data/data";
+import Loader from "./Loader";
+
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 
@@ -70,7 +72,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   }, [goalId]);
 
   if (loading || goals === null || habits === null) {
-    return <h2>Loading...</h2>;
+    return <Loader />;
   }
 
   const isDateInCurrentWeek = (dateToCheck) => {

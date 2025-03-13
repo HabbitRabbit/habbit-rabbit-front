@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import EditGoal from "../components/EditGoal";
 import WeeklyView from "../components/WeeklyView";
+import Loader from "../components/Loader";
+
 
 function GoalDetail({ deleteGoal, goals, fetchGoals, fetchHabits, habits }) {
   const { goalId } = useParams();
@@ -29,7 +31,7 @@ function GoalDetail({ deleteGoal, goals, fetchGoals, fetchHabits, habits }) {
     fetchGoal();
   }, [goalId]);
 
-  if (loading) return <div className="text-center mt-20 text-xl">Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="text-center mt-20 text-red-600">{error}</div>;
 
   return (
