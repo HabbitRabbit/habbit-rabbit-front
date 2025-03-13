@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 
 function HabitDetail() {
+
   const { habitId } = useParams();
   const [habit, setHabit] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,8 +32,8 @@ function HabitDetail() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
-  <Loader />
-  </div>);
+      <Loader />
+    </div>);
   if (error) return <div>{error}</div>;
 
   return (

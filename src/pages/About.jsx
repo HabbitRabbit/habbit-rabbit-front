@@ -25,9 +25,9 @@ function About() {
             <p className="text-lg mb-4">
               HabbitRabbit is a way to track your habit goals and to make sure that you stick to them. <br />
             </p>
-  
+
             <img src={logo} className="mx-auto mb-4 w-45 rounded-2xl" />
-  
+
             <p className="text-l">
               This page was created by Julia Solias and Sergio Llorens. <br />
               You'll find our contact details below.

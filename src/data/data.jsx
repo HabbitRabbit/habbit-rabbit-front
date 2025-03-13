@@ -1,8 +1,7 @@
 import chroma from "chroma-js";
 import makeAnimated from 'react-select/animated';
-import { ToastContainer, toast, Zoom } from 'react-toastify';
+import { toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 // Define color options for react-select
 const colorOptions = [
@@ -66,18 +65,12 @@ const colourStyles = {
 
 const animatedComponents = makeAnimated();
 
-
-
 const checkHabitReminderAndNotify = (habits) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
 
     habits.forEach(habit => {
         const habitReminderDate = new Date(habit.reminder);
-
-        // Log the dates for debugging
-        //console.log(`Habit: ${habit.title}, Reminder Date: ${habitReminderDate.toDateString()}, Today: ${today.toDateString()}`);
-
         // Compare the date parts only (ignore time) and check if habit is unchecked (check: false)
         if (habitReminderDate.toDateString() === today.toDateString() && habit.check === false) {
             toast.info(`Reminder for habit: ${habit.title}`);
@@ -87,19 +80,19 @@ const checkHabitReminderAndNotify = (habits) => {
 
 const notifySucces = (isLargeScreen) => {
     toast.success('Well Done!', {
-      position: isLargeScreen > 1240 ? "top-center" : "bottom-center", // Change position based on screen size
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Zoom,
-      style: {
-        borderRadius: '8px', // Optional: rounded corners for the notification
-      },
+        position: isLargeScreen > 1240 ? "top-center" : "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+        style: {
+            borderRadius: '8px',
+        },
     });
-  };
-  
+};
+
 export { colorOptions, dot, colourStyles, animatedComponents, checkHabitReminderAndNotify, notifySucces }
