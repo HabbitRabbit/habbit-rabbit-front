@@ -146,6 +146,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       return localStorage.getItem(key) === "true";
     });
 
+    let amount = 0;
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -178,27 +179,29 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
               <p className="text-lg mb-2">
                 {goal.name}
               </p>
-              <Box sx={{ width: '80%', maxWidth: '500px' }}>
-                  <LinearProgress
-                    variant="determinate"
-                    // Value => (achivedCount (1) / required Checks (30) ) * 100
-                    value={50}
-                    sx={{
-                      height: '12px', // Custom height
-                      borderRadius: '8px', // Rounded corners
-                      backgroundColor: '#e0e0e0', // Light background for the bar
-                      '& .MuiLinearProgress-bar': {
-                        backgroundColor: '#1976d2', // Blue color for the progress bar
-                        borderRadius: '8px', // Rounded corners for the bar
-                      },
-                    }}
-                  />
-                </Box>
               <ul className="list-disc pl-5">
                 {goal.habits.map((habitObj) => {
                   const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`;
 
                   const isChecked = localStorage.getItem(key) ? true : false;
+
+
+                  //Logic for the progress bar
+                  const totalAchievedCount = goal.habits.reduce((sum, habitObj) => {
+                    return sum + habitObj.achievedCount;
+                  }, 0);
+                  //console.log("____" + totalAchievedCount);
+
+                  const totalRequiredCount = goal.habits.reduce((sum, habitObj) => {
+                    return sum + goal.requiredAchievedCount;
+                  }, 0);
+                  //console.log("++++" + totalRequiredCount);
+                  
+                  amount = (totalAchievedCount / totalRequiredCount) * 100
+                  //console.log("%%%" + amount);
+                  
+                  
+                  
 
                   return (
                     habitObj.habit && (
@@ -210,13 +213,31 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                           className="mr-2"
                         />
                         <span className={`ml-2 ${isChecked ? 'line-through text-gray-500' : ''}`}>
-                          {habitObj.habit.title} - Completed: {habitObj.habit.achievedCount} - Missing {habitObj.habit.remainingAchievedCount} checks, out of {habitObj.requiredAchievedCount}
+                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
                         </span>
                       </li>
                     )
                   );
                 })}
               </ul>
+              <p>Progress goal: </p>
+              <Box sx={{ width: '80%', maxWidth: '500px' }}>
+                <LinearProgress
+                  variant="determinate"
+                  // Value => (achivedCount (1) / required Checks (30) ) * 100
+                  value={amount}
+                  sx={{
+                    height: '12px', // Custom height
+                    borderRadius: '8px', // Rounded corners
+                    backgroundColor: '#e0e0e0', // Light background for the bar
+                    '& .MuiLinearProgress-bar': {
+                      backgroundColor: '#1976d2', // Blue color for the progress bar
+                      borderRadius: '8px', // Rounded corners for the bar
+                    },
+                  }}
+                />
+                
+              </Box>
               {allHabitsCompleted ? (
                 <div className="text-center mt-4">
                   <h3 className="text-green-600 font-bold">
