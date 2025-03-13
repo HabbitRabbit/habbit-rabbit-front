@@ -27,7 +27,11 @@ function EditHabit() {
                     setTitle(response.data.title);
                     setDescription(response.data.description);
                     setFrequency(response.data.frequency);
-                    setReminder(response.data.reminder);
+                    setReminder(
+                        response.data.reminder
+                          ? new Date(response.data.reminder).toISOString().split("T")[0]
+                          : ""
+                      );
                 })
                 .catch((error) => console.log(`Error: ${error}`));
         }
