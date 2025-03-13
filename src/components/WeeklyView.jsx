@@ -11,6 +11,7 @@ import { es } from "react-day-picker/locale";
 import axios from "axios";
 import "react-day-picker/dist/style.css";
 import { useParams } from "react-router-dom";
+import { notifySucces } from "../data/data";
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -21,7 +22,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const { goalId } = useParams();
 
   const now = new Date();
-
   const fetchGoal = async () => {
     try {
       const response = await axios.get(
@@ -89,7 +89,9 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
   const handleHabitCheck = async (goalId) => {
     try {
-      alert("hi")
+
+      notifySucces() // Alert with toastify to notify sumbit button
+
       const goal = goals.find((curr) => curr._id === goalId);
 
       const updatedGoal = {
@@ -127,7 +129,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       // [OK] 2. En el HTML, para cada habit checkbox, buscar su variable en local storage
       // Si la variable existe y es "true", marcar el checkbox
       // Sino, no marcarlo
-      // Añadir estilo "gris" "tachado" al goal cuando esté disabled
+      // Añadir estilo "gris" "tachado" al goal cuando esté disabled -> done
       // ++ Cuando hagas submit, añadir un mensajito de "Sucess"
       // [OK] 3. Si todos los habits tienen local storage a true, poner el boton a disabled
       // 4. En el punto ETIQUETA PUNTO 4, solo ejecutar el codigo de habit.achievedCount + 1 si el getlocal storage es false o no existe para el habit
