@@ -89,6 +89,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
   const handleHabitCheck = async (goalId) => {
     try {
+      alert("hi")
       const goal = goals.find((curr) => curr._id === goalId);
 
 
@@ -217,7 +218,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                           disabled={isChecked}
                           onChange={(e) => handleHabitSelect(e, habitObj._id)}
                         />
-                        <span className="ml-2">
+                        <span className={`ml-2 ${isChecked ? 'line-through' : ''}`}>
                           {habitObj.habit.title} - Completed: {habitObj.achievedCount}
                         </span>
                       </li>
