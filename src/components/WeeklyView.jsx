@@ -176,8 +176,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           .map((goal) => (
             <div key={goal._id} className="mb-6">
               <p className="text-lg mb-2">
-                {goal.name} (Required Checks: {goal.requiredAchievedCount},
-                Remaining Checks: {goal.remainingAchievedCount})
+                {goal.name}
               </p>
               <Box sx={{ width: '80%', maxWidth: '500px' }}>
                   <LinearProgress
@@ -210,7 +209,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                           className="mr-2"
                         />
                         <span className={`ml-2 ${isChecked ? 'line-through text-gray-500' : ''}`}>
-                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
+                          {habitObj.habit.title} - Completed: {habitObj.achievedCount} - Missing {habitObj.remainingAchievedCount} checks, out of {habitObj.requiredAchievedCount}
                         </span>
                       </li>
                     )
