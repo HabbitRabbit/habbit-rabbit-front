@@ -1,12 +1,39 @@
-# React + Vite
+# Habbit Rabbit - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+Habbit Rabbit is a habit tracking application designed to help users create and maintain real habits. This repository contains the frontend code built with React. It provides an intuitive interface for users to manage their goals and habits effectively.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A repository with the backend code can be found here: https://github.com/HabbitRabbit/habbit-rabbit-back
 
-## Expanding the ESLint configuration
+## Instructions to Run
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Clone the Repository**
+
+   ```
+   bash
+   git clone https://github.com/HabbitRabbit/habbit-rabbit-front.git
+
+
+2. **Install Dependencies**
+
+```
+npm install
+```
+
+3. **Environment Variables**
+Create a .env file in the root directory and add the following environment variable:
+
+````
+VITE_API_URL=http://localhost:5000
+````
+
+4. **Run the Application**
+Start the development server with
+
+```
+npm run dev
+```
+
+**DEMO**
+You can view the live version of the project on Netlify: https://habbitrabbit.netlify.app/
