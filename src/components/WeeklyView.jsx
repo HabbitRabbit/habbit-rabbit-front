@@ -13,6 +13,7 @@ import "react-day-picker/dist/style.css";
 import { useParams } from "react-router-dom";
 import { notifySucces } from "../data/data";
 import Loader from "./Loader";
+import Typography from '@mui/material/Typography';
 
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
@@ -146,7 +147,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       return localStorage.getItem(key) === "true";
     });
 
-    let amount = 0;
+  let amount = 0;
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -196,12 +197,12 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                     return sum + goal.requiredAchievedCount;
                   }, 0);
                   //console.log("++++" + totalRequiredCount);
-                  
+
                   amount = (totalAchievedCount / totalRequiredCount) * 100
                   //console.log("%%%" + amount);
-                  
-                  
-                  
+
+
+
 
                   return (
                     habitObj.habit && (
@@ -221,23 +222,33 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                 })}
               </ul>
               <p>Progress goal: </p>
-              <Box sx={{ width: '80%', maxWidth: '500px' }}>
+              <Box sx={{ width: '100%', maxWidth: '500px', display: 'flex', alignItems: 'center' }}>
                 <LinearProgress
                   variant="determinate"
-                  // Value => (achivedCount (1) / required Checks (30) ) * 100
-                  value={amount}
+                  value={Math.min(amount, 100)}  // Ensure the value does not exceed 100
                   sx={{
                     height: '12px', // Custom height
                     borderRadius: '8px', // Rounded corners
                     backgroundColor: '#e0e0e0', // Light background for the bar
+                    width: '80%', // Set a width to ensure proper size
                     '& .MuiLinearProgress-bar': {
                       backgroundColor: '#1976d2', // Blue color for the progress bar
                       borderRadius: '8px', // Rounded corners for the bar
                     },
                   }}
                 />
+                {/* {amount === 100 && (
+                  <Typography variant="body2" sx={{ color: 'blue', marginLeft: 2, fontWeight: 'bold' }}>
+                     🎉 🐰 🎉
+                  </Typography>
+                )} */}
                 
               </Box>
+              {amount === 100 && (
+                <p className="text-center">
+                  🎉 🐰 🎉
+                  </p>
+                )}
               {allHabitsCompleted ? (
                 <div className="text-center mt-4">
                   <h3 className="text-green-600 font-bold">
