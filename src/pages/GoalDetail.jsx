@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import EditGoal from "../components/EditGoal";
 import WeeklyView from "../components/WeeklyView";
+import Loader from "../components/Loader";
+
 
 function GoalDetail({ deleteGoal, goals, fetchGoals, fetchHabits, habits }) {
   const { goalId } = useParams();

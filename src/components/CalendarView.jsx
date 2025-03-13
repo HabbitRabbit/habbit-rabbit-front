@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import 'react-calendar/dist/Calendar.css';
+import Loader from "./Loader";
 
 function CalendarView({ habits, fetchHabits }) {
   const [date, setDate] = useState(new Date());

@@ -2,6 +2,8 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import Loader from "./Loader";
+
 
 function ListHabits({ deleteHabit, fetchHabits, habits }) {
 

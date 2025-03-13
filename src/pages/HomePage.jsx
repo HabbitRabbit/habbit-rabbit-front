@@ -16,9 +16,9 @@ function HomePage() {
       <Loader />
       <Link
         to="/login"
-        className="bg-white mt-7 text-purple-800 py-2 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105"
+        className="bg-gray-200 mt-7 text-purple-800 py- px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105"
       >
-        Go to Login
+        Login
       </Link>
       <Link to="/about" className="mt-5 text-purple-600 hover:text-purple-800 transition duration-300 italic">
         Get to know us

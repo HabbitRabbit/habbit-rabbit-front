@@ -12,6 +12,8 @@ import axios from "axios";
 import "react-day-picker/dist/style.css";
 import { useParams } from "react-router-dom";
 import { notifySucces } from "../data/data";
+import Loader from "./Loader";
+
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
