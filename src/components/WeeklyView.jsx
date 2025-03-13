@@ -182,6 +182,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
               <Box sx={{ width: '80%', maxWidth: '500px' }}>
                   <LinearProgress
                     variant="determinate"
+                    // Value => (achivedCount (1) / required Checks (30) ) * 100
                     value={50}
                     sx={{
                       height: '12px', // Custom height
