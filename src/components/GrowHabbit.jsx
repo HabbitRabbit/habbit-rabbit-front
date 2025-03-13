@@ -5,7 +5,6 @@ import sunglassRabbit from "../assets/growingHabbitSunGlasses.png"
 function GrowHabbit({ amount }) {
     // Calculate the size based on the 'amount' prop (from 0 to 100)
     const size = Math.min(100 + amount, 500); // Maximum size limit
-     console.log(size)
     return (
         <div>
             { amount < 100 ? <img 
