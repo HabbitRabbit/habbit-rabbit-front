@@ -38,9 +38,9 @@ function SignupPage(props) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">Sign Up</h1>
 
         <form onSubmit={handleSignupSubmit} className="space-y-4">
           <div>
@@ -91,7 +91,7 @@ function SignupPage(props) {
             />
           </div>
 
-          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+          <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-full hover:bg-purple-700 transition duration-300">
             Sign Up
           </button>
         </form>
@@ -99,7 +99,7 @@ function SignupPage(props) {
         {errorMessage && <p className="mt-4 text-red-500 text-center">{errorMessage}</p>}
 
         <p className="mt-6 text-center text-gray-600">
-          Already have an account? <Link to={"/login"} className="text-blue-600 hover:underline">Login</Link>
+          Already have an account? <Link to={"/login"} className="text-purple-600 hover:underline">Login</Link>
         </p>
       </div>
     </div>
