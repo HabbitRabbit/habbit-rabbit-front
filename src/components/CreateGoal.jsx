@@ -3,6 +3,7 @@ import axios from "axios";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 import { animatedComponents } from "../data/data";
+import { colorOptions, dot, colourStyles } from "../data/data";
 
 import Select from "react-select";
 
@@ -20,6 +21,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
     today.setDate(today.getDate() + 30); // Add 30 days to today
     return today.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
   });
+  const [color, setColor] = useState("#0000FF");
 
   const [habits, setHabits] = useState([])
   const [selectedHabits, setSelectedHabits] = useState([]);
@@ -94,6 +96,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
         name,
         startDate,
         endDate,
+        color,
         habits: selectedHabits.map((habitId) => ({ habit: habitId, achievedCount: 0 })), // Map selected habit IDs to the habit objects
         createdBy: userId,
       };
@@ -118,6 +121,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
     setName("");
     setStartDate("");
     setEndDate("");
+    setColor("");
     setSelectedHabits([]);
 
     navigate('/dashboard');
@@ -143,7 +147,7 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
             Name:
             <input
               type="text"
-              placeholder="write a name..."
+              placeholder="Enter a name..."
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -173,6 +177,16 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
             />
           </label>
         </div>
+        <div>
+              <label className="block text-gray-700">Color:</label>
+              <Select
+                value={color ? colorOptions.find((option) => option.value === color) : null}
+                onChange={(selectedOption) => setColor(selectedOption.value)}
+                options={colorOptions}
+                styles={colourStyles}
+                className="mt-1"
+              />
+            </div>
         <div>
           <label className="block text-gray-700">
             Select habits:

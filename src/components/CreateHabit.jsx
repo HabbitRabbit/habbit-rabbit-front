@@ -2,8 +2,6 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
-import { colorOptions, dot, colourStyles } from "../data/data";
-
 import Select from "react-select";
 import makeAnimated from 'react-select/animated';
 
@@ -11,7 +9,6 @@ function CreateHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("#0000FF");
     const [frequency, setFrequency] = useState("daily");
     const [createdBy, setCreatedBy] = useState("");
     const [reminder, setReminder] = useState(() => {
@@ -37,7 +34,6 @@ function CreateHabit() {
             const newHabit = {
                 title,
                 description,
-                color,
                 frequency,
                 createdBy: userId, // Set the createdBy field with the user's ID
                 reminder
@@ -53,7 +49,6 @@ function CreateHabit() {
             // Reset form fields
             setTitle("");
             setDescription("");
-            setColor("");
             setFrequency("daily");
             setReminder("");
 
@@ -75,7 +70,7 @@ function CreateHabit() {
                 Title:
                 <input
                   type="text"
-                  placeholder="enter a title..."
+                  placeholder="Enter a title..."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
@@ -88,22 +83,12 @@ function CreateHabit() {
                 Description:
                 <input
                   type="text"
-                  placeholder="enter a description..."
+                  placeholder="Enter a description..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-inner bg-white"
                 />
               </label>
-            </div>
-            <div>
-              <label className="block text-gray-700">Color:</label>
-              <Select
-                value={color ? colorOptions.find((option) => option.value === color) : null}
-                onChange={(selectedOption) => setColor(selectedOption.value)}
-                options={colorOptions}
-                styles={colourStyles}
-                className="mt-1"
-              />
             </div>
             <div>
               <label className="block text-gray-700">
