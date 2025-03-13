@@ -21,7 +21,9 @@ function ListHabits({ deleteHabit, fetchHabits, habits }) {
   // Loading items
   if (habits === null) {
     return (
+      <div className="flex items-center justify-center min-h-screen">
       <Loader />
+      </div>
     );
   }
   

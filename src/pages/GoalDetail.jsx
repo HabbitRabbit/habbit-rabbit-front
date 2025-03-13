@@ -31,7 +31,11 @@ function GoalDetail({ deleteGoal, goals, fetchGoals, fetchHabits, habits }) {
     fetchGoal();
   }, [goalId]);
 
-  if (loading) return <Loader />;
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen">
+    <Loader />
+    </div>
+)
   if (error) return <div className="text-center mt-20 text-red-600">{error}</div>;
 
   return (

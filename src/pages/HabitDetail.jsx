@@ -29,7 +29,10 @@ function HabitDetail() {
     fetchHabit();
   }, [habitId]);
 
-  if (loading) return <Loader />;
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen">
+  <Loader />
+  </div>);
   if (error) return <div>{error}</div>;
 
   return (

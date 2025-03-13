@@ -11,7 +11,10 @@ function IsPrivate( { children } ) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 
   // If the authentication is still loading 
-  if (isLoading) return <Loader />;
+  if (isLoading) return 
+  (<div className="flex items-center justify-center min-h-screen">
+  <Loader />;
+  </div>)
 
   if (!isLoggedIn) {
   // If the user is not logged in 

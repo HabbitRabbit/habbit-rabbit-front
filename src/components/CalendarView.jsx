@@ -15,7 +15,10 @@ function CalendarView({ habits, fetchHabits }) {
   
   // Loading items 
   if (habits === null) {
-    return <Loader />;
+    return (
+    <div className="flex items-center justify-center min-h-screen">
+    <Loader />
+    </div>)
   }
   // Get start of the week (Sunday as the start of the week)
   const startOfWeek = (date) => {
