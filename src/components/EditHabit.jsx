@@ -2,10 +2,8 @@ import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { AuthContext } from "../context/auth.context";
-import Select from "react-select";
 
 function EditHabit() {
-
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -34,7 +32,6 @@ function EditHabit() {
                 .catch((error) => console.log(`Error: ${error}`));
         }
     }, [habitId])
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();

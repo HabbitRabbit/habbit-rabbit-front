@@ -23,6 +23,4 @@ function GrowHabbit({ amount }) {
     );
 }
 
-
-
 export default GrowHabbit;

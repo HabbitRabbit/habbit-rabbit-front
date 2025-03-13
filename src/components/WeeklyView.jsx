@@ -1,25 +1,22 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import {
   endOfWeek,
   startOfWeek,
   isWithinInterval,
-  addDays,
-  differenceInDays,
 } from "date-fns";
 import { es } from "react-day-picker/locale";
-import axios from "axios";
 import "react-day-picker/dist/style.css";
-import { useParams } from "react-router-dom";
 import { notifySucces } from "../data/data";
 import Loader from "./Loader";
-import Typography from '@mui/material/Typography';
-
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import GrowHabbit from "./GrowHabbit";
 
 const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -29,15 +26,10 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
   const [width, setWidth] = useState(window.innerWidth);
 
-
   useEffect(() => { //set the size of screen in a variable
-
     const handleResize = () => setWidth(window.innerWidth);
-
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
-
   }, []);
 
   const now = new Date();
@@ -75,8 +67,8 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
   if (loading || goals === null || habits === null) {
     return (
-    <div className="flex items-center justify-center min-h-screen">
-      <Loader />
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader />
       </div>)
   }
 
@@ -87,7 +79,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     return isWithinInterval(dateToCheck, { start, end });
   };
 
-
   const handleDayClick = (date) => {
     setSelectedDate(date);
   };
@@ -96,9 +87,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     try {
 
       notifySucces(width) // Alert with toastify to notify sumbit button
-
       const goal = goals.find((curr) => curr._id === goalId);
-
       const updatedGoal = {
         ...goal,
 
@@ -126,15 +115,15 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           )
           : habit
       );
+
       fetchGoals();
       return;
     } catch (error) {
       console.log(error);
     }
   };
-  const handleHabitSelect = (e, habit) => {
-    console.log("handleHabitSelect");
 
+  const handleHabitSelect = (e, habit) => {
     if (e.target.checked) {
       setHabitsToCheck((prev) => [...prev, habit]);
     } else {
@@ -151,7 +140,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     });
 
   let amount = 0;
-
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -172,7 +160,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           className="mb-6 justify-center"
         />
       </div>
-
       <div>
         <h3 className="text-xl font-semibold text-blue-700 mb-3">
           Habits for {selectedDate.toLocaleDateString()}
@@ -193,15 +180,12 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                   const totalAchievedCount = goal.habits.reduce((sum, habitObj) => {
                     return sum + habitObj.achievedCount;
                   }, 0);
-                  //console.log("____" + totalAchievedCount);
 
                   const totalRequiredCount = goal.habits.reduce((sum, habitObj) => {
                     return sum + goal.requiredAchievedCount;
                   }, 0);
-                  //console.log("++++" + totalRequiredCount);
 
                   amount = (totalAchievedCount / totalRequiredCount) * 100
-                  //console.log("%%%" + amount);
 
                   return (
                     habitObj.habit && (
@@ -222,39 +206,31 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
               </ul>
               <p className="mt-6 mb-3">Progress... </p>
               <div className="flex justify-center mb-6">
-              <Box sx={{ width: '80%', maxWidth: '1000px', display: 'flex', alignItems: 'center' }}>
-                <LinearProgress
-                  variant="determinate"
-                  value={Math.min(amount, 100)}  // Ensure the value does not exceed 100
-                  sx={{
-                    height: '20px', // Custom height
-                    borderRadius: '10px', // Rounded corners
-                    backgroundColor: '#e0e0e0', // Light background for the bar
-                    width: '100%', // Set a width to ensure proper size
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: goal.color, // Color chosen from Goal
-                      borderRadius: '10px', // Rounded corners for the bar
-                    },
-                  }}
-                />
-                {/* {amount === 100 && (
-                  <Typography variant="body2" sx={{ color: 'blue', marginLeft: 2, fontWeight: 'bold' }}>
-                     🎉 🐰 🎉
-                  </Typography>
-                )} */}
-                
-              </Box>
-              {amount === 100 && (
-                <p className="text-center">
-                  🎉 🐰 🎉
+                <Box sx={{ width: '80%', maxWidth: '1000px', display: 'flex', alignItems: 'center' }}>
+                  <LinearProgress
+                    variant="determinate"
+                    value={Math.min(amount, 100)}  // Ensure the value does not exceed 100
+                    sx={{
+                      height: '20px', // Custom height
+                      borderRadius: '10px', // Rounded corners
+                      backgroundColor: '#e0e0e0', // Light background for the bar
+                      width: '100%', // Set a width to ensure proper size
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: goal.color, // Color chosen from Goal
+                        borderRadius: '10px', // Rounded corners for the bar
+                      },
+                    }}
+                  />
+                </Box>
+                {amount === 100 && (
+                  <p className="text-center">
+                    🎉 🐰 🎉
                   </p>
                 )}
-                </div>
-
-                <div className="mt-2 flex justify-center">
-                <GrowHabbit amount={amount}/>
-                </div>
-              
+              </div>
+              <div className="mt-2 flex justify-center">
+                <GrowHabbit amount={amount} />
+              </div>
               {allHabitsCompleted ? (
                 <div className="text-center mt-4">
                   <h3 className="text-green-600 font-bold">

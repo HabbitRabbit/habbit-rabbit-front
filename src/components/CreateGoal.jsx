@@ -3,12 +3,11 @@ import axios from "axios";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 import { animatedComponents } from "../data/data";
-import { colorOptions, dot, colourStyles } from "../data/data";
+import { colorOptions, colourStyles } from "../data/data";
 
 import Select from "react-select";
 
-function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
-
+function CreateGoal({ goalId }) {
 
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState(() => {
@@ -30,24 +29,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
 
   const { storeToken } = useContext(AuthContext);
 
-
-  // const associateHabitWithGoal = async (habitId, goalId, userId) => {
-  //   try {
-  //     const response = await axios.post(`${API_URL}/api/progress`, {
-  //       habitId,
-  //       goalId,
-  //       userId,
-  //     }, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-  //       },
-  //     });
-  //     console.log("Progress entry created:", response.data);
-  //   } catch (error) {
-  //     console.error("Error creating progress entry:", error);
-  //   }
-  // };
-
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/api/habits/`, {
       headers: {
@@ -59,8 +40,6 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
       })
       .catch((error) => console.log(`Error fetching habits: ${error}`));
   }, []);
-
-
 
   useEffect(() => {
     if (goalId) {
@@ -108,34 +87,26 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
       });
 
       console.log("Goal created successfully:", response.data);
-      const createdGoal = response.data;
+    
+      // Reset form fields
+      setName("");
+      setStartDate("");
+      setEndDate("");
+      setColor("");
+      setSelectedHabits([]);
 
-    // // Create progress entries for each habit associated with the new goal
-    // await Promise.all(selectedHabits.map((habitId) => 
-    //   associateHabitWithGoal(habitId, createdGoal._id, userId)
-    // ));
+      navigate('/dashboard');
 
-    console.log("Goal created successfully:", createdGoal);
-
-    // Reset form fields
-    setName("");
-    setStartDate("");
-    setEndDate("");
-    setColor("");
-    setSelectedHabits([]);
-
-    navigate('/dashboard');
-
-  } catch (error) {
-    console.error("There was an error saving the goal!", error);
-  }
-};
+    } catch (error) {
+      console.error("There was an error saving the goal!", error);
+    }
+  };
 
   const habitOptions = habits.map((habit) => ({
     label: habit.title,
     value: habit._id,
   }));
-  
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 shadow-2xl rounded-3xl border-4 border-blue-300">
       <h2 className="text-3xl font-bold mb-4 text-purple-800 font-alice">
@@ -178,15 +149,15 @@ function CreateGoal({ goalId, fetchGoals, fetchHabits, onGoalCreated }) {
           </label>
         </div>
         <div>
-              <label className="block text-gray-700">Color:</label>
-              <Select
-                value={color ? colorOptions.find((option) => option.value === color) : null}
-                onChange={(selectedOption) => setColor(selectedOption.value)}
-                options={colorOptions}
-                styles={colourStyles}
-                className="mt-1"
-              />
-            </div>
+          <label className="block text-gray-700">Color:</label>
+          <Select
+            value={color ? colorOptions.find((option) => option.value === color) : null}
+            onChange={(selectedOption) => setColor(selectedOption.value)}
+            options={colorOptions}
+            styles={colourStyles}
+            className="mt-1"
+          />
+        </div>
         <div>
           <label className="block text-gray-700">
             Select habits:
