@@ -78,23 +78,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     return isWithinInterval(dateToCheck, { start, end });
   };
 
-  // const isHabitCheckEligible = (habit, startDate, endDate) => {
-  //   const frequencyDays =
-  //     {
-  //       "daily": 1,
-  //       "two-days": 2,
-  //       "three-days": 3,
-  //     }[habit.frequency] || 1;
-
-  //   let currentDate = new Date(startDate);
-  //   while (currentDate <= endDate) {
-  //     if (currentDate.toDateString() === selectedDate.toDateString()) {
-  //       return true;
-  //     }
-  //     currentDate = addDays(currentDate, frequencyDays);
-  //   }
-  //   return false;
-  // };
 
   const handleDayClick = (date) => {
     setSelectedDate(date);
@@ -109,12 +92,12 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
       const updatedGoal = {
         ...goal,
-        // PUNTO 4
+        
         habits: goal.habits.map(
           (
-            habit // ETIQUETA PUNTO 4
+            habit
           ) =>
-            /*(*/ habitsToCheck.includes(String(habit._id)) && !localStorage.getItem(`${goalId}-${habit._id}-${now}`) //&& LOCAL STORAGE NOT EXIST)
+             habitsToCheck.includes(String(habit._id)) && !localStorage.getItem(`${goalId}-${habit._id}-${now}`) 
               ? { ...habit, achievedCount: habit.achievedCount + 1 }
               : habit
         ),
@@ -135,17 +118,6 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           : habit
       );
 
-      // PUNTO 1
-      // [OK] 1. Guardar en local storage como true el goal+habit+date que se ha guardado
-      // localStorage.setItem(`${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`, true)
-      // ej: localStorage.setItem("goalId-habitId-2025/03/12",true)
-      // [OK] 2. En el HTML, para cada habit checkbox, buscar su variable en local storage
-      // Si la variable existe y es "true", marcar el checkbox
-      // Sino, no marcarlo
-      // Añadir estilo "gris" "tachado" al goal cuando esté disabled -> done
-      // ++ Cuando hagas submit, añadir un mensajito de "Sucess"
-      // [OK] 3. Si todos los habits tienen local storage a true, poner el boton a disabled
-      // 4. En el punto ETIQUETA PUNTO 4, solo ejecutar el codigo de habit.achievedCount + 1 si el getlocal storage es false o no existe para el habit
       return;
     } catch (error) {
       console.log(error);
@@ -171,78 +143,81 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
       return localStorage.getItem(key) === "true";
     });
 
-  return (
-    <div>
-      <h3>Current Week</h3>
-      <DayPicker
-        locale={es}
-        selected={selectedDate}
-        onDayClick={handleDayClick}
-        mode="single"
-        showOutsideDays={false}
-        disabled={(date) => !isDateInCurrentWeek(date)}
-        footer={
-          selectedDate
-            ? `Selected: ${selectedDate.toLocaleDateString()}`
-            : "Pick a day."
-        }
-      />
-
-      <div>
-        <h3>Habits for {selectedDate.toLocaleDateString()}</h3>
-        {goals
-          .filter((goal) => goal._id === goalId)
-          .map((goal) => (
-            <div key={goal._id}>
-              <p>
-                {goal.name} (Required Checks: {goal.requiredAchievedCount},
-                Remaining Checks: {goal.remainingAchievedCount})
-              </p>
-              <ul>
-                {goal.habits.map((habitObj) => {
-                  const key = `${goalId}-${habitObj._id}-${
-                    now.toLocaleString().split(",")[0]
-                  }`;
-
-                  const isChecked = localStorage.getItem(key) ? true : false;
-
-                  return (
-                    habitObj.habit && (
-                      <li key={habitObj._id} className="flex items-center my-2">
-                        <input
-                          type="checkbox"
-                          disabled={isChecked}
-                          onChange={(e) => handleHabitSelect(e, habitObj._id)}
-                        />
-                        <span className={`ml-2 ${isChecked ? 'line-through' : ''}`}>
-                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
-                        </span>
-                      </li>
-                    )
-                  );
-                })}
-              </ul>
-              {allHabitsCompleted ? (
-                <div className="text-center mt-4">
-                  <h3 className="text-green-600 font-bold">
-                    You have completed all your habits for today!
-                  </h3>
-                </div>
-              ) : (
-                <div className="text-center mt-4">
-                  <button
-                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-                    onClick={() => handleHabitCheck(goal._id)}
-                  >
-                    Complete Today's Habits
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-      </div>
+    return (
+      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h3 className="text-2xl font-bold text-blue-800 mb-4 mt-4 text-center">Current Week</h3>
+        <div className="flex justify-center mb-6">
+        <DayPicker
+          locale={es}
+          selected={selectedDate}
+          onDayClick={handleDayClick}
+          mode="single"
+          showOutsideDays={false}
+          disabled={(date) => !isDateInCurrentWeek(date)}
+          footer={
+            selectedDate
+              ? `Selected: ${selectedDate.toLocaleDateString()}`
+              : "Pick a day."
+          }
+          className="mb-6 justify-center"
+        />
     </div>
-  );
+        <div>
+          <h3 className="text-xl font-semibold text-blue-700 mb-3">
+            Habits for {selectedDate.toLocaleDateString()}
+          </h3>
+          {goals
+            .filter((goal) => goal._id === goalId)
+            .map((goal) => (
+              <div key={goal._id} className="mb-6">
+                <p className="text-lg mb-2">
+                  {goal.name} (Required Checks: {goal.requiredAchievedCount},
+                  Remaining Checks: {goal.remainingAchievedCount})
+                </p>
+                <ul className="list-disc pl-5">
+                  {goal.habits.map((habitObj) => {
+                    const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`;
+    
+                    const isChecked = localStorage.getItem(key) ? true : false;
+    
+                    return (
+                      habitObj.habit && (
+                        <li key={habitObj._id} className="flex items-center my-2">
+                          <input
+                            type="checkbox"
+                            disabled={isChecked}
+                            onChange={(e) => handleHabitSelect(e, habitObj._id)}
+                            className="mr-2"
+                          />
+                          <span className={`ml-2 ${isChecked ? 'line-through text-gray-500' : ''}`}>
+                            {habitObj.habit.title} - Completed: {habitObj.achievedCount}
+                          </span>
+                        </li>
+                      )
+                    );
+                  })}
+                </ul>
+                {allHabitsCompleted ? (
+                  <div className="text-center mt-4">
+                    <h3 className="text-green-600 font-bold">
+                      You have completed all your habits for today!
+                    </h3>
+                  </div>
+                ) : (
+                  <div className="text-center mt-4">
+                    <button
+                      className="bg-blue-600 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
+                      onClick={() => handleHabitCheck(goal._id)}
+                    >
+                      Complete Today's Habits
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+      </div>
+    );
 };
 
 export default WeeklyView;

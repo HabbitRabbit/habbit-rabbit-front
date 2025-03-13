@@ -4,7 +4,7 @@ import axios from "axios";
 import EditGoal from "../components/EditGoal";
 import WeeklyView from "../components/WeeklyView";
 
-function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
+function GoalDetail({ deleteGoal, goals, fetchGoals, fetchHabits, habits }) {
   const { goalId } = useParams();
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,45 +25,44 @@ function GoalDetail({deleteGoal, goals, fetchGoals, fetchHabits, habits}) {
     }
   };
 
-
   useEffect(() => {
     fetchGoal();
   }, [goalId]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="text-center mt-20 text-xl">Loading...</div>;
+  if (error) return <div className="text-center mt-20 text-red-600">{error}</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-indigo-100 shadow-lg rounded-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-800">Goal Details</h1>
+    <div className="max-w-4xl mx-auto p-6 bg-indigo-50 shadow-2xl rounded-3xl">
+            <div className="flex justify-between items-center mb-4">
+      <h1 className="text-4xl font-bold mb-6 text-center text-indigo-800">Goal Details</h1>
+      <Link to={`/goals/edit/${goalId}`} className="text-blue-600 hover:text-blue-800 transition duration-300">
+          Edit Goal
+        </Link>
+        </div>
       {goal ? (
-        <div className="bg-white p-4 rounded-md shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold mb-4 text-pink-600">{goal.name}</h2>
-          <p><strong>Start Date:</strong> {new Date(goal.startDate).toLocaleDateString()}</p>
-          <p><strong>End Date:</strong> {goal.endDate ? new Date(goal.endDate).toLocaleDateString() : "Ongoing"}</p>
+          <p className="mb-2"><strong>Start Date:</strong> {new Date(goal.startDate).toLocaleDateString()}</p>
+          <p className="mb-6"><strong>End Date:</strong> {goal.endDate ? new Date(goal.endDate).toLocaleDateString() : "Ongoing"}</p>
           
-          <div className="mt-8 border-t pt-4">
+          <div className="border-t pt-4">
             <p className="font-semibold mb-4 text-indigo-800"><strong>Habits: </strong></p>
-            <div className="space-y-3">
-              {goal.habits.map((habitObj) => {
-                return (
-                  <p key={habitObj.habit._id} className="bg-indigo-200 p-3 rounded-full text-center shadow-sm">
-                    {habitObj.habit.title}. <br /> Frequency: {habitObj.habit.frequency}
-                  </p>
-                );
-              })}
+            <div className="space-y-4">
+              {goal.habits.map((habitObj) => (
+                <p key={habitObj.habit._id} className="bg-indigo-200 p-3 rounded-lg text-center shadow-sm">
+                  {habitObj.habit.title}. <br /> Frequency: {habitObj.habit.frequency}
+                </p>
+              ))}
             </div>
           </div>
 
-          <Link to={`/goals/edit/${goalId}`} className="block mt-6 text-center text-blue-600 hover:text-blue-800">
-            Edit Goal
-          </Link>
-          <div>
-          <WeeklyView goals={goals} fetchGoals={fetchGoals} habits={habits} fetchHabits={fetchHabits}/>
-            </div>
+          <div className="mt-8">
+            <WeeklyView goals={goals} fetchGoals={fetchGoals} habits={habits} fetchHabits={fetchHabits} />
+          </div>
         </div>
       ) : (
-        <div>Goal not found</div>
+        <div className="text-center mt-20 text-red-600">Goal not found</div>
       )}
     </div>
   );
