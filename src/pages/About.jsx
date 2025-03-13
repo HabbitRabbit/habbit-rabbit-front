@@ -17,7 +17,7 @@ const teamMembers = [
 
 function About() {
   return (
-    <div className="flex justify-center items-center min-h-screen p-8 bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200">
+    <div className="flex justify-center items-center min-h-screen p-8">
       <div className="p-1 rounded-lg w-full md:w-3/5">
         <div className="bg-white shadow-xl rounded-3xl p-8 border-4 border-purple-200">
           <div className="text-center mb-8">
