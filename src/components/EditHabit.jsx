@@ -2,9 +2,6 @@ import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { AuthContext } from "../context/auth.context";
-
-import { colorOptions, dot, colourStyles } from "../data/data";
-
 import Select from "react-select";
 
 function EditHabit() {
@@ -12,7 +9,6 @@ function EditHabit() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("");
     const [frequency, setFrequency] = useState("");
     const [reminder, setReminder] = useState("")
 
@@ -32,7 +28,6 @@ function EditHabit() {
                 .then((response) => {
                     setTitle(response.data.title);
                     setDescription(response.data.description);
-                    setColor(response.data.color);
                     setFrequency(response.data.frequency);
                     setReminder(response.data.reminder);
                 })
@@ -54,7 +49,6 @@ function EditHabit() {
             const newHabitDetails = {
                 title,
                 description,
-                color,
                 frequency,
                 createdBy: userId, // Set the createdBy field with the user's ID
                 reminder
@@ -100,16 +94,6 @@ function EditHabit() {
                             className="mt-1 block w-full p-2 border border-gray-300 rounded"
                         />
                     </label>
-                </div>
-                <div>
-                    <label className="block text-gray-700">Color:</label>
-                    <Select
-                        value={color ? colorOptions.find((option) => option.value === color) : null}
-                        onChange={(selectedOption) => setColor(selectedOption.value)}
-                        options={colorOptions}
-                        styles={colourStyles}
-                        className="mt-1"
-                    />
                 </div>
                 <div>
                     <label className="block text-gray-700">

@@ -6,11 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // Define color options for react-select
 const colorOptions = [
-    { label: "Blue", value: "#0000FF" },
-    { label: "Red", value: "#FF0000" },
-    { label: "Green", value: "#008000" },
-    { label: "Pink", value: "#FFC0CB" },
-    { label: "Yellow", value: "#FFFF00" }
+    { label: "Blue", value: "#A1C6EA" },
+    { label: "Pink", value: "#F7A1C4" },
+    { label: "Green", value: "#88E7B5" },
+    { label: "Purple", value: "#EAB0FF" },
+    { label: "Orange", value: "#FFB347" }
 ];
 
 // Custom styles for react-select
