@@ -85,18 +85,21 @@ const checkHabitReminderAndNotify = (habits) => {
     });
 };
 
-const notifySucces = () => {
+const notifySucces = (isLargeScreen) => {
     toast.success('The information has been sent!', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Zoom,
+      position: isLargeScreen > 1240 ? "top-center" : "bottom-center", // Change position based on screen size
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Zoom,
+      style: {
+        borderRadius: '8px', // Optional: rounded corners for the notification
+      },
     });
-}
-
+  };
+  
 export { colorOptions, dot, colourStyles, animatedComponents, checkHabitReminderAndNotify, notifySucces }

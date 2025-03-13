@@ -20,6 +20,19 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const [habitsToCheck, setHabitsToCheck] = useState([]);
 
   const { goalId } = useParams();
+  
+  const [width, setWidth] = useState(window.innerWidth);
+
+
+  useEffect(() => {
+
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+
+  }, []);
 
   const now = new Date();
   const fetchGoal = async () => {
@@ -90,8 +103,8 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
   const handleHabitCheck = async (goalId) => {
     try {
 
-      notifySucces() // Alert with toastify to notify sumbit button
-
+      notifySucces(width) // Alert with toastify to notify sumbit button
+      
       const goal = goals.find((curr) => curr._id === goalId);
 
       const updatedGoal = {
