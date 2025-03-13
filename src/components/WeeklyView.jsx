@@ -91,61 +91,45 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     try {
       const goal = goals.find((curr) => curr._id === goalId);
 
-
-
       const updatedGoal = {
         ...goal,
         // PUNTO 4
-        habits: goal.habits.map((habit) =>// ETIQUETA PUNTO 4
-          /*(*/habitsToCheck.includes(String(habit._id)) //&& LOCAL STORAGE NOT EXIST)
-            ? { ...habit, achievedCount: habit.achievedCount + 1 }
-            : habit
+        habits: goal.habits.map(
+          (
+            habit // ETIQUETA PUNTO 4
+          ) =>
+            /*(*/ habitsToCheck.includes(String(habit._id)) //&& LOCAL STORAGE NOT EXIST)
+              ? { ...habit, achievedCount: habit.achievedCount + 1 }
+              : habit
         ),
       };
-
-      // goals.requiredAchievedCount (días que hay que hacer check)
-      // remainingAchievedCount (checks que quedan por hacer || remaining days) 
-      // 
-      // if achievedCount < remainingAchievedCount => podemos hacer check
-      // else (check disabled)
-
-      //  startDate 10/3 until 12/3 (currentDate) => 2 days (stored in: amount)
-      //  if achievedCount < amount (doSomething)
-      //  else (check disable)
-
-
-      // const isHabitCheckEligible = (habit, startDate, endDate) => {
-      //   // Calcula el número total de días desde startDate hasta la fecha seleccionada
-      //   const amount = differenceInDays(selectedDate, new Date(startDate)) + 1; // +1 para incluir el día de inicio
-      
-      //   // Verifica si el hábito ha sido completado menos veces de lo que el periodo permite
-      //   const achievedCount = habit.achievedCount || 0;
-        
-      //   // Si el número de veces que se ha completado es menor que el número de días transcurridos, es elegible para ser marcado
-      //   return achievedCount < amount;
-      // };
 
       await axios.patch(
         `${import.meta.env.VITE_API_URL}/api/goals/checkHabit/${goalId}`,
         { goal: updatedGoal }
       );
-      
+
       // For each checked habit inside the goal, set local Storage with current date to TRUE
       goal.habits.map((habit) =>
-      habitsToCheck.includes(String(habit._id))
-        ? localStorage.setItem(`${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`, true)
-        : habit
-    )
-      
+        habitsToCheck.includes(String(habit._id))
+          ? localStorage.setItem(
+              `${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`,
+              true
+            )
+          : habit
+      );
+
       // PUNTO 1
-// 1. Guardar en local storage como true el goal+habit+date que se ha guardado
-// localStorage.setItem(`${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`, true)
-// ej: localStorage.setItem("goalId-habitId-2025/03/12",true)
-// 2. En el HTML, para cada habit checkbox, buscar su variable en local storage
-// Si la variable existe y es "true", marcar el checkbox
-// Sino, no marcarlo
-// 3. Si todos los habits tienen local storage a true, poner el boton a disabled
-// 4. En el punto ETIQUETA PUNTO 4, solo ejecutar el codigo de habit.achievedCount + 1 si el getlocal storage es false o no existe para el habit
+      // [OK] 1. Guardar en local storage como true el goal+habit+date que se ha guardado
+      // localStorage.setItem(`${goalId}-${habit._id}-${now.toLocaleString().split(",")[0]}`, true)
+      // ej: localStorage.setItem("goalId-habitId-2025/03/12",true)
+      // [OK] 2. En el HTML, para cada habit checkbox, buscar su variable en local storage
+      // Si la variable existe y es "true", marcar el checkbox
+      // Sino, no marcarlo
+      // Añadir estilo "gris" "tachado" al goal cuando esté disabled
+      // ++ Cuando hagas submit, añadir un mensajito de "Sucess"
+      // 3. Si todos los habits tienen local storage a true, poner el boton a disabled
+      // 4. En el punto ETIQUETA PUNTO 4, solo ejecutar el codigo de habit.achievedCount + 1 si el getlocal storage es false o no existe para el habit
       return;
     } catch (error) {
       console.log(error);
@@ -154,7 +138,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
 
   const handleHabitSelect = (e, habit) => {
     console.log("handleHabitSelect");
-    
+
     if (e.target.checked) {
       setHabitsToCheck((prev) => [...prev, habit]);
     } else {
@@ -162,18 +146,14 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
     }
   };
 
-  // const allHabitsCompleted = goals
-  //   .find((goal) => goal._id === goalId)
-  //   ?.habits.every((habitObj) => {
-  //     const canCheck = isHabitCheckEligible(
-  //       habitObj.habit,
-  //       goal.startDate,
-  //       goal.endDate
-  //     );
-  //     return !canCheck || habitsToCheck.includes(String(habitObj._id));
-  //   });
-
-
+  const allHabitsCompleted = goals
+    .find((goal) => goal._id === goalId)
+    ?.habits.every((habitObj) => {
+      const key = `${goalId}-${habitObj._id}-${
+        now.toLocaleString().split(",")[0]
+      }`;
+      return localStorage.getItem(key) === "true";
+    });
 
   return (
     <div>
@@ -199,16 +179,17 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
           .map((goal) => (
             <div key={goal._id}>
               <p>
-                GOAL NAME: {goal.name} (Required: {goal.requiredAchievedCount},
+                {goal.name} (Required Checks: {goal.requiredAchievedCount},
                 Remaining Checks: {goal.remainingAchievedCount})
               </p>
               <ul>
                 {goal.habits.map((habitObj) => {
-                  const key = `${goalId}-${habitObj._id}-${now.toLocaleString().split(",")[0]}`
+                  const key = `${goalId}-${habitObj._id}-${
+                    now.toLocaleString().split(",")[0]
+                  }`;
 
-                  const isChecked = localStorage.getItem(key) ? true : false
+                  const isChecked = localStorage.getItem(key) ? true : false;
 
-                  // PUNTO 2
                   return (
                     habitObj.habit && (
                       <li key={habitObj._id} className="flex items-center my-2">
@@ -218,31 +199,30 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                           onChange={(e) => handleHabitSelect(e, habitObj._id)}
                         />
                         <span className="ml-2">
-                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
+                          {habitObj.habit.title} - Completed:{" "}
+                          {habitObj.achievedCount}
                         </span>
                       </li>
                     )
                   );
                 })}
               </ul>
-              {/* {allHabitsCompleted && (
+              {allHabitsCompleted ? (
                 <div className="text-center mt-4">
                   <h3 className="text-green-600 font-bold">
                     You have completed all your habits for today!
                   </h3>
                 </div>
-              )} */
-              
-              // PUNTO 3
-              }
-              <div className="text-center mt-4">
-                <button
-                  className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-                  onClick={() => handleHabitCheck(goal._id)}
-                >
-                  Complete Today's Habits
-                </button>
-              </div>
+              ) : (
+                <div className="text-center mt-4">
+                  <button
+                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                    onClick={() => handleHabitCheck(goal._id)}
+                  >
+                    Complete Today's Habits
+                  </button>
+                </div>
+              )}
             </div>
           ))}
       </div>
