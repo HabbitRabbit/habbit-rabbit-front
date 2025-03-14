@@ -16,7 +16,7 @@ const { isLoggedIn } = useContext(AuthContext);
         <Link to="/login">
        <img src={logo} alt="Habbit Rabbit Logo" className="w-30 mb-8 rounded-2xl shadow-lg" />
        </Link>
-      <h1 className="text-5xl font-bold text-purple-900 mb-7 drop-shadow-md">Welcome to Habbit Rabbit</h1>
+      <h1 className="text-5xl font-bold text-purple-900 mb-7 drop-shadow-md text-center">Welcome to Habbit Rabbit</h1>
       <Loader />
       {isLoggedIn ? (
         <Link

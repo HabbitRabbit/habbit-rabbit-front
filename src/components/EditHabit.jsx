@@ -69,6 +69,8 @@ function EditHabit() {
     };
 
     return (
+        <div className="flex justify-center items-center min-h-screen p-8">
+      <div className="p-1 rounded-lg w-full md:w-3/5">
         <div className="bg-gray-50 p-6 rounded shadow-md mb-6">
             <h2 className="text-xl font-semibold mb-4">Edit</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -127,6 +129,8 @@ function EditHabit() {
                     Edit
                 </button>
             </form>
+        </div>
+        </div>
         </div>
     )
 

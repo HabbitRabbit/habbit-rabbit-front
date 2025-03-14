@@ -213,7 +213,7 @@ const WeeklyView = ({ habits, fetchHabits, goals, fetchGoals }) => {
                           className="mr-2"
                         />
                         <span className={`ml-2 ${isChecked ? 'line-through text-gray-500' : ''}`}>
-                          {habitObj.habit.title} - Completed: {habitObj.achievedCount}
+                          {habitObj.habit.title}
                         </span>
                       </li>
                     )
