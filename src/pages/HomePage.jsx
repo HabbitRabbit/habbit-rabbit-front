@@ -1,15 +1,12 @@
-import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import { useContext } from "react";
 import logo from "../assets/Habbit-logo-alone.png"
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import { AuthContext } from "../context/auth.context";
 
-
-
 function HomePage() {
 
-const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
@@ -33,12 +30,11 @@ const { isLoggedIn } = useContext(AuthContext);
           Login
         </Link>
       )}
-
       <Link to="/about" className="mt-5 text-purple-600 hover:text-purple-800 transition duration-300 italic">
         Get to know us
       </Link>
     </div>
-    );
-  }
+  );
+}
 
 export default HomePage

@@ -1,6 +1,5 @@
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import Loader from "./Loader";
 
@@ -12,21 +11,19 @@ function ListHabits({ deleteHabit, fetchHabits, habits }) {
     await fetchHabits()
   };
 
-
   useEffect(() => {
     fetchHabits();
   }, []);
-
 
   // Loading items
   if (habits === null) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-      <Loader />
+        <Loader />
       </div>
     );
   }
-  
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-teal-100 via-blue-100 to-teal-200 shadow-xl rounded-3xl border-4 border-green-200">
       <h1 className="text-3xl font-bold mb-4 text-teal-800 font-alice">
@@ -38,7 +35,7 @@ function ListHabits({ deleteHabit, fetchHabits, habits }) {
       >
         Create New Habit
       </Link>
-  
+
       {!habits || habits.length === 0 ? (
         <div className="mt-6 text-gray-600 italic">
           No habits are created yet. Create one now! :)

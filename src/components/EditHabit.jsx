@@ -2,10 +2,8 @@ import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { AuthContext } from "../context/auth.context";
-import Select from "react-select";
 
 function EditHabit() {
-
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -29,12 +27,15 @@ function EditHabit() {
                     setTitle(response.data.title);
                     setDescription(response.data.description);
                     setFrequency(response.data.frequency);
-                    setReminder(response.data.reminder);
+                    setReminder(
+                        response.data.reminder
+                          ? new Date(response.data.reminder).toISOString().split("T")[0]
+                          : ""
+                      );
                 })
                 .catch((error) => console.log(`Error: ${error}`));
         }
     }, [habitId])
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();

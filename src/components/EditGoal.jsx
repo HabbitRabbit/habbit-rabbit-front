@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { animatedComponents } from "../data/data";
 import Select from "react-select";
-import { colorOptions, dot, colourStyles } from "../data/data";
+import { colorOptions, colourStyles } from "../data/data";
 
 
 function EditGoal() {
@@ -14,8 +14,9 @@ function EditGoal() {
   const [habits, setHabits] = useState([]); // State for available habits
   const [selectedHabits, setSelectedHabits] = useState([]); // State for selected habits
 
-  const navigate = useNavigate();
   const { goalId } = useParams();
+
+  const navigate = useNavigate();
 
   //Fetch the habits
   useEffect(() => {

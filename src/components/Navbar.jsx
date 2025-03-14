@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
 function Navbar() {
+
   const { isLoggedIn, logOutUser } = useContext(AuthContext);
 
   return (
@@ -19,16 +20,16 @@ function Navbar() {
               <Link to="/create-goal" className="hover:text-purple-800 transition duration-300 ease-in-out  font-semibold">Add Goal</Link>
               <Link to="/habits" className="hover:text-purple-800 transition duration-300 ease-in-out font-semibold">My Habits</Link>
               <Link to="/create-habit" className="hover:text-purple-800 transition duration-300 ease-in-out font-semibold">Add Habit</Link>
-              <button 
-                onClick={logOutUser} 
+              <button
+                onClick={logOutUser}
                 className="bg-white hover:bg-gray-100 text-purple-800 py-2 px-4 rounded-full transition duration-300"
               >
                 Logout
               </button>
             </>
           ) : (
-            <Link 
-              to="/login" 
+            <Link
+              to="/login"
               className="bg-white hover:bg-gray-100 text-purple-800 py-2 px-4 rounded-full transition duration-300"
             >
               Login/Signup

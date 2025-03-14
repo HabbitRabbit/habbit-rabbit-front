@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function SignupPage(props) {
+function SignupPage() {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,11 +42,10 @@ function SignupPage(props) {
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-6 text-center text-purple-800">Sign Up</h1>
-
         <form onSubmit={handleSignupSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700">Email:</label>
-            <input 
+            <input
               type="email"
               name="email"
               value={email}
@@ -54,10 +54,9 @@ function SignupPage(props) {
               required
             />
           </div>
-
           <div>
             <label className="block text-gray-700">Password:</label>
-            <input 
+            <input
               type="password"
               name="password"
               value={password}
@@ -66,10 +65,9 @@ function SignupPage(props) {
               required
             />
           </div>
-
           <div>
             <label className="block text-gray-700">Confirm Password:</label>
-            <input 
+            <input
               type="password"
               name="confirmPassword"
               value={confirmPassword}
@@ -78,10 +76,9 @@ function SignupPage(props) {
               required
             />
           </div>
-
           <div>
             <label className="block text-gray-700">Name:</label>
-            <input 
+            <input
               type="text"
               name="name"
               value={name}
@@ -90,14 +87,11 @@ function SignupPage(props) {
               required
             />
           </div>
-
           <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-full hover:bg-purple-700 transition duration-300">
             Sign Up
           </button>
         </form>
-
         {errorMessage && <p className="mt-4 text-red-500 text-center">{errorMessage}</p>}
-
         <p className="mt-6 text-center text-gray-600">
           Already have an account? <Link to={"/login"} className="text-purple-600 hover:underline">Login</Link>
         </p>

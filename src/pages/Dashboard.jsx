@@ -1,14 +1,10 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import CreateGoal from "../components/CreateGoal";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css'
 import { checkHabitReminderAndNotify } from "../data/data";
 
-function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
-
-  const navigate = useNavigate();
+function Dashboard({ goals, fetchGoals, deleteGoal, habits }) {
 
   const handleDelete = async (goalId) => {
     await deleteGoal(goalId);
@@ -17,10 +13,9 @@ function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
 
   useEffect(() => {
     fetchGoals();
-  },  []);
+  }, []);
 
   useEffect(() => {
-    // If habits are fetched, call the reminder check function
     if (habits && habits.length > 0) {
       checkHabitReminderAndNotify(habits);
     }
@@ -31,10 +26,10 @@ function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
       <h1 className="text-3xl font-bold mb-4 text-purple-800 font-alice">
         Dashboard Goal Page
       </h1>
-
+      
       <Link to="/create-goal" className="button bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-    Create New Goal
-    </Link>
+        Create New Goal
+      </Link>
 
       {!goals || !goals.length ? (
         <div className="mt-6 text-gray-600 italic">
@@ -54,20 +49,20 @@ function Dashboard({ goals, fetchGoals, deleteGoal, habits, fetchHabits }) {
                 {goal.name}
               </Link>
               <div className="flex space-x-3 mt-2">
-              <button
-                onClick={() => handleDelete(goal._id)}
-                className="bg-red-500 text-white py-1 px-3 rounded-full flex items-center space-x-2 hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-110"
-              >
-                <FaTrash />
-                <span>Delete</span>
-              </button>
-              <Link
-                to={`/goals/edit/${goal._id}`}
-                className="bg-purple-500 text-white py-1 px-3 rounded-full flex items-center space-x-2 hover:bg-purple-600 transition duration-300 ease-in-out transform hover:scale-110"
-              >
-                <FaEdit />
-                <span>Edit</span>
-              </Link>
+                <button
+                  onClick={() => handleDelete(goal._id)}
+                  className="bg-red-500 text-white py-1 px-3 rounded-full flex items-center space-x-2 hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-110"
+                >
+                  <FaTrash />
+                  <span>Delete</span>
+                </button>
+                <Link
+                  to={`/goals/edit/${goal._id}`}
+                  className="bg-purple-500 text-white py-1 px-3 rounded-full flex items-center space-x-2 hover:bg-purple-600 transition duration-300 ease-in-out transform hover:scale-110"
+                >
+                  <FaEdit />
+                  <span>Edit</span>
+                </Link>
               </div>
             </li>
           ))}
